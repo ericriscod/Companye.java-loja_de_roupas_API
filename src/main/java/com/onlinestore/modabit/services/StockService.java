@@ -1,9 +1,10 @@
 package com.onlinestore.modabit.services;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.onlinestore.modabit.entities.Product;
@@ -13,18 +14,18 @@ import com.onlinestore.modabit.repositories.ProductRepository;
 public class StockService {
 	
 	@Autowired
-	private ProductRepository productRepository;
+	private ProductRepository repository;
 	
-	public List<Product> findAll(){
-		return productRepository.findAll();
+	public Page<Product> findAll(Pageable pageable){
+		return repository.findAll(pageable);
 	}
 	
 	public Product findById(Long id) {
-		Optional<Product> product = productRepository.findById(id);
+		Optional<Product> product = repository.findById(id);
 		return product.get();
 	}
 	
 	public Product save(Product product) {
-		return productRepository.save(product);
+		return repository.save(product);
 	}
 }
