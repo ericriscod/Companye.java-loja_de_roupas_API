@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.onlinestore.modabit.entities.Product;
-import com.onlinestore.modabit.services.StockService;
+import com.onlinestore.modabit.services.ProductService;
 
 @RestController
-@RequestMapping(value = "/stock")
-public class StockResource {
+@RequestMapping(value = "/products")
+public class ProductResource {
 
 	@Autowired
-	private StockService service;
+	private ProductService service;
 
 	@GetMapping(value = "/page")
 	public ResponseEntity<Page<Product>> findAll(Pageable pageable) {

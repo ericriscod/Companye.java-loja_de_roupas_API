@@ -11,7 +11,7 @@ import com.onlinestore.modabit.entities.Product;
 import com.onlinestore.modabit.repositories.ProductRepository;
 
 @Service
-public class StockService {
+public class ProductService {
 	
 	@Autowired
 	private ProductRepository repository;
