@@ -1,5 +1,6 @@
 package com.onlinestore.modabit.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,10 @@ public class ProductService {
 	
 	public Page<Product> findAll(Pageable pageable){
 		return repository.findAll(pageable);
+	}
+	
+	public List<Product> findAll(){
+		return repository.findAll();
 	}
 	
 	public Optional<Product> findById(Long id) {
