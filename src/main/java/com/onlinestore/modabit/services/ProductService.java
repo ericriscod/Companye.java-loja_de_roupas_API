@@ -20,9 +20,9 @@ public class ProductService {
 		return repository.findAll(pageable);
 	}
 	
-	public Product findById(Long id) {
+	public Optional<Product> findById(Long id) {
 		Optional<Product> product = repository.findById(id);
-		return product.get();
+		return product;
 	}
 	
 	public Product save(Product product) {
