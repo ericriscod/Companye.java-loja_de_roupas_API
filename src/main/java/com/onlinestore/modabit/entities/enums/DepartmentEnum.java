@@ -14,7 +14,7 @@ public enum DepartmentEnum {
 		return code;
 	}
 
-	public DepartmentEnum valueEnum(String typeCode) {
+	public static DepartmentEnum valueEnum(String typeCode) {
 		for (DepartmentEnum type : DepartmentEnum.values()) {
 			if (type.getCode().equalsIgnoreCase(typeCode)) {
 				return type;

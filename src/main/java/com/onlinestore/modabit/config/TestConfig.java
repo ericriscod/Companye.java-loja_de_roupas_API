@@ -26,9 +26,9 @@ public class TestConfig implements CommandLineRunner {
 		Stock st2 = new Stock(10);
 		Stock st3 = new Stock(20);		
 	
-		Product pd1 = new Product(100.0, "Classic", "G", "White", "Blouse", "Social",st1);
-		Product pd2 = new Product(100.0, "No-Classic", "GG", "Green", "Shirts", "Esport",st2);
-		Product pd3 = new Product(100.0, "Classic", "M", "Grey", "Shorts", "Bath",st3);
+		Product pd1 = new Product("BLUSVERDSOCCLAPEQ",12d,st1);
+		Product pd2 = new Product("CAMILARASOCCLAPEQ",23d,st2);
+		Product pd3 = new Product("SHORAMARSOCCLAPEQ",34d,st3);
 		
 		productRepository.saveAll(Arrays.asList(pd1,pd2,pd3));	
 		

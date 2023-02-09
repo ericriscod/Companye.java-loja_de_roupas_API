@@ -3,6 +3,12 @@ package com.onlinestore.modabit.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.onlinestore.modabit.entities.enums.CategoryEnum;
+import com.onlinestore.modabit.entities.enums.ColorEnum;
+import com.onlinestore.modabit.entities.enums.DepartmentEnum;
+import com.onlinestore.modabit.entities.enums.SizeEnum;
+import com.onlinestore.modabit.entities.enums.TypeEnum;
+
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,29 +24,22 @@ public class Product implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
+	private String sku;
 	private Double price;
-	private String type;
-	private String size;
-	private String color;
-	private String category;
-	private String department;
+
+	private TypeEnum type;
+	private SizeEnum size;
+	private ColorEnum color;
+	private CategoryEnum category;
+	private DepartmentEnum department;
 
 	@Embedded
 	private Stock stock;
 
-	public Product() {
-	}
-
-	public Product(Double price, String type, String size, String color, String category, String department, Stock stock) {
-		super();
-		this.price = price;
-		this.type = type;
-		this.size = size;
-		this.color = color;
-		this.category = category;
-		this.department = department;
+	public Product(String sku, Double price, Stock stock) {
+		this.sku = sku;
 		this.stock = stock;
+		insertEnum();
 	}
 
 	public Long getId() {
@@ -51,6 +50,10 @@ public class Product implements Serializable {
 		this.id = id;
 	}
 
+	public String getSku() {
+		return sku;
+	}
+
 	public Double getPrice() {
 		return price;
 	}
@@ -59,44 +62,24 @@ public class Product implements Serializable {
 		this.price = price;
 	}
 
-	public String getType() {
+	public TypeEnum getType() {
 		return type;
 	}
 
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public String getSize() {
+	public SizeEnum getSize() {
 		return size;
 	}
 
-	public void setSize(String size) {
-		this.size = size;
-	}
-
-	public String getColor() {
+	public ColorEnum getColor() {
 		return color;
 	}
 
-	public void setColor(String color) {
-		this.color = color;
-	}
-
-	public String getCategory() {
+	public CategoryEnum getCategory() {
 		return category;
 	}
 
-	public void setCategory(String category) {
-		this.category = category;
-	}
-
-	public String getDepartment() {
+	public DepartmentEnum getDepartment() {
 		return department;
-	}
-
-	public void setDepartment(String department) {
-		this.department = department;
 	}
 
 	public Stock getStock() {
@@ -106,6 +89,14 @@ public class Product implements Serializable {
 	public void setStock(Stock stock) {
 		this.stock = stock;
 	}
+
+	private void insertEnum() {
+		category = CategoryEnum.valueEnum(sku.substring(0,4));
+		color = ColorEnum.valueEnum(sku.substring(4,8));
+		department = DepartmentEnum.valueEnum(sku.substring(8,11));	
+		type = TypeEnum.valueEnum(sku.substring(11,14));
+		size = SizeEnum.valueEnum(sku.substring(14));
+		}
 
 	@Override
 	public int hashCode() {

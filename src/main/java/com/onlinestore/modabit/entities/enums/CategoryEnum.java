@@ -14,8 +14,8 @@ public enum CategoryEnum {
 		return code;
 	}
 
-	public TypeEnum valueEnum(String typeCode) {
-		for (TypeEnum type : TypeEnum.values()) {
+	public static CategoryEnum valueEnum(String typeCode) {
+		for (CategoryEnum type : CategoryEnum.values()) {
 			if (type.getCode().equalsIgnoreCase(typeCode)) {
 				return type;
 			}

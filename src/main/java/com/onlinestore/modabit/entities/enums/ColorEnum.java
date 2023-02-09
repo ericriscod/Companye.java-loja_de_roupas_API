@@ -15,7 +15,7 @@ public enum ColorEnum {
 		return code;
 	}
 
-	public ColorEnum valueEnum(String typeCode) {
+	public static ColorEnum valueEnum(String typeCode) {
 		for (ColorEnum type : ColorEnum.values()) {
 			if (type.getCode().equalsIgnoreCase(typeCode)) {
 				return type;
