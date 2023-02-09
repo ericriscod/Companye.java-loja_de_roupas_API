@@ -21,16 +21,16 @@ public class ProductResource {
 
 	@Autowired
 	private ProductService service;
-	
+
 	@Transactional(readOnly = true)
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Product> findById(@PathVariable Long id){
-		return  service.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.noContent().build());	 
+	public ResponseEntity<Product> findById(@PathVariable Long id) {
+		return service.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.noContent().build());
 	}
-	
+
 	@Transactional(readOnly = true)
 	@GetMapping
-	public ResponseEntity<List<Product>> findAll(){
+	public ResponseEntity<List<Product>> findAll() {
 		try {
 			List<Product> result = service.findAll();
 			if (!result.isEmpty()) {

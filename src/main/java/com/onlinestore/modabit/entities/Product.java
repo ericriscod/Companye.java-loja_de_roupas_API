@@ -11,6 +11,8 @@ import com.onlinestore.modabit.entities.enums.TypeEnum;
 
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,17 +29,26 @@ public class Product implements Serializable {
 	private String sku;
 	private Double price;
 
+	@Enumerated(EnumType.STRING)
 	private TypeEnum type;
+	@Enumerated(EnumType.STRING)
 	private SizeEnum size;
+	@Enumerated(EnumType.STRING)
 	private ColorEnum color;
+	@Enumerated(EnumType.STRING)
 	private CategoryEnum category;
+	@Enumerated(EnumType.STRING)
 	private DepartmentEnum department;
 
 	@Embedded
 	private Stock stock;
 
+	public Product() {
+	}
+	
 	public Product(String sku, Double price, Stock stock) {
 		this.sku = sku;
+		this.price = price;
 		this.stock = stock;
 		insertEnum();
 	}
