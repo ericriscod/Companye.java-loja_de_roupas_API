@@ -30,6 +30,10 @@ public class ProductService {
 		return product;
 	}
 	
+	public Optional<Product> findBySku(String sku){
+		return repository.findBySku(sku);
+	}
+	
 	public Product save(Product product) {
 		return repository.save(product);
 	}

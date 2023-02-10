@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.onlinestore.modabit.entities.Product;
@@ -27,33 +28,31 @@ public class ProductResource {
 	public ResponseEntity<Product> findById(@PathVariable Long id) {
 		return service.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.noContent().build());
 	}
+	
+	@Transactional(readOnly = true)
+	@GetMapping(value = "/sku")
+	public ResponseEntity<Product> findBySku(@RequestParam(defaultValue = "") String sku){		
+		return service.findBySku(sku).map(ResponseEntity::ok).orElse(ResponseEntity.noContent().build());
+	}
 
 	@Transactional(readOnly = true)
 	@GetMapping
 	public ResponseEntity<List<Product>> findAll() {
-		try {
-			List<Product> result = service.findAll();
-			if (!result.isEmpty()) {
-				return ResponseEntity.ok(result);
-			}
-			return ResponseEntity.noContent().build();
-		} catch (Exception e) {
-			return ResponseEntity.internalServerError().build();
+		List<Product> result = service.findAll();
+		if (!result.isEmpty()) {
+			return ResponseEntity.ok(result);
 		}
+		return ResponseEntity.noContent().build();
 	}
 
 	@Transactional(readOnly = true)
 	@GetMapping(value = "/page")
 	public ResponseEntity<Page<Product>> findAll(Pageable pageable) {
-		try {
-			Page<Product> result = service.findAll(pageable);
-			if (!result.isEmpty()) {
-				return ResponseEntity.ok(result);
-			}
-			return ResponseEntity.noContent().build();
-		} catch (Exception e) {
-			return ResponseEntity.internalServerError().build();
+		Page<Product> result = service.findAll(pageable);
+		if (!result.isEmpty()) {
+			return ResponseEntity.ok(result);
 		}
+		return ResponseEntity.noContent().build();
 	}
 
 }
