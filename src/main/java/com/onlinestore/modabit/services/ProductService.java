@@ -13,28 +13,34 @@ import com.onlinestore.modabit.repositories.ProductRepository;
 
 @Service
 public class ProductService {
-	
+
 	@Autowired
 	private ProductRepository repository;
-	
-	public Page<Product> findAll(Pageable pageable){
+
+	public Page<Product> findAll(Pageable pageable) {
 		return repository.findAll(pageable);
 	}
-	
-	public List<Product> findAll(){
+
+	public List<Product> findAll() {
 		return repository.findAll();
 	}
-	
+
 	public Optional<Product> findById(Long id) {
 		Optional<Product> product = repository.findById(id);
 		return product;
 	}
-	
-	public Optional<Product> findBySku(String sku){
-		return repository.findBySku(sku);
+
+	public Optional<Product> findBySku(String sku) {
+		return repository.findBySku(sku.toUpperCase());
 	}
-	
+
 	public Product save(Product product) {
-		return repository.save(product);
+		Optional<Product> result = findBySku(product.getSku());
+		if (result.isEmpty()) {
+			product.insertEnum();
+			repository.save(product);
+			return product;
+		}
+		 return null;
 	}
 }

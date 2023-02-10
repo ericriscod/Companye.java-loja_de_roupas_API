@@ -62,7 +62,7 @@ public class Product implements Serializable {
 	}
 
 	public String getSku() {
-		return sku;
+		return sku.toUpperCase();
 	}
 
 	public Double getPrice() {
@@ -101,10 +101,11 @@ public class Product implements Serializable {
 		this.stock = stock;
 	}
 
-	private void insertEnum() {
+	public void insertEnum() {
+		sku = sku.toUpperCase();
 		category = CategoryEnum.valueEnum(sku.substring(0,4));
 		color = ColorEnum.valueEnum(sku.substring(4,8));
-		department = DepartmentEnum.valueEnum(sku.substring(8,11));	
+		department = DepartmentEnum.valueEnum(sku.substring(8,11));
 		type = TypeEnum.valueEnum(sku.substring(11,14));
 		size = SizeEnum.valueEnum(sku.substring(14));
 		}
