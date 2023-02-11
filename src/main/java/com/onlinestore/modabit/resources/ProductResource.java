@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,17 +27,17 @@ public class ProductResource {
 	private ProductService service;
 
 	@Transactional(readOnly = true)
-	@GetMapping(value = "/{id}")
+	@GetMapping(value = "/search-id/{id}")
 	public ResponseEntity<Product> findById(@PathVariable Long id) {
 		return service.findById(id).map(product -> ResponseEntity.ok(product))
-				.orElse(ResponseEntity.notFound().build());
+				.orElse(ResponseEntity.badRequest().build());
 	}
 
 	@Transactional(readOnly = true)
-	@GetMapping(value = "/sku")
-	public ResponseEntity<Product> findBySku(@RequestParam(defaultValue = "") String sku) {
+	@GetMapping(value = "/search-sku/{sku}")
+	public ResponseEntity<Product> findBySku(@PathVariable String sku) {
 		return service.findBySku(sku).map(product -> ResponseEntity.ok(product))
-				.orElse(ResponseEntity.notFound().build());
+				.orElse(ResponseEntity.badRequest().build());
 	}
 
 	@Transactional(readOnly = true)
@@ -59,13 +60,30 @@ public class ProductResource {
 		return ResponseEntity.noContent().build();
 	}
 
-	@Transactional
+
 	@PostMapping
 	public ResponseEntity<Product> save(@RequestBody Product product) {
-		Product savedProduct = service.save(product);
-		if (savedProduct != null) {
+		try {
+			Product savedProduct = service.save(product);
 			return ResponseEntity.ok(savedProduct);
+
+		} catch (IllegalArgumentException e) {
+			return ResponseEntity.badRequest().build();
 		}
-		return ResponseEntity.badRequest().build();
+
+	}
+
+	
+	//possível alteração
+	@PutMapping
+	public ResponseEntity<Product> update(@RequestBody Product updateProduct) {
+		try {
+			Product product = service.update(updateProduct);
+			return ResponseEntity.ok(product);
+			
+		} catch (IllegalArgumentException e) {
+			return ResponseEntity.badRequest().build();
+
+		}
 	}
 }

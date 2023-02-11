@@ -35,11 +35,26 @@ public class ProductService {
 
 	public Product save(Product product) throws IllegalArgumentException {
 		Optional<Product> result = findBySku(product.getSku());
+		
 		if (result.isEmpty()) {
 			product.insertEnum();
 			repository.save(product);
 			return product;
 		}
-		 throw new 	IllegalArgumentException("There is already a product with the SKU informed: " + product.getSku());
+		throw new IllegalArgumentException("There is already a product with the SKU informed: " + product.getSku());
 	}
+
+	public Product update(Product updateProduct) throws IllegalArgumentException {
+		if (updateProduct.getPrice() <= 0 || updateProduct.getStock().getQuantity() < 0) {
+			throw new IllegalArgumentException("Invalid price or quantity");
+		}
+		
+		Product product = repository.findBySku(updateProduct.getSku())
+				.orElseThrow(() -> new IllegalArgumentException("No there is the product"));
+		
+		product.setPrice(updateProduct.getPrice());
+		product.setStock(updateProduct.getStock());
+		return repository.save(product);
+	}
+
 }
