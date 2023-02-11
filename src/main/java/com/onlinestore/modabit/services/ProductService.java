@@ -26,21 +26,20 @@ public class ProductService {
 	}
 
 	public Optional<Product> findById(Long id) {
-		Optional<Product> product = repository.findById(id);
-		return product;
+		return repository.findById(id);
 	}
 
 	public Optional<Product> findBySku(String sku) {
 		return repository.findBySku(sku.toUpperCase());
 	}
 
-	public Product save(Product product) {
+	public Product save(Product product) throws IllegalArgumentException {
 		Optional<Product> result = findBySku(product.getSku());
 		if (result.isEmpty()) {
 			product.insertEnum();
 			repository.save(product);
 			return product;
 		}
-		 return null;
+		 throw new 	IllegalArgumentException("There is already a product with the SKU informed: " + product.getSku());
 	}
 }

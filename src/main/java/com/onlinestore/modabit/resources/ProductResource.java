@@ -28,21 +28,23 @@ public class ProductResource {
 	@Transactional(readOnly = true)
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Product> findById(@PathVariable Long id) {
-		return service.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.noContent().build());
+		return service.findById(id).map(product -> ResponseEntity.ok(product))
+				.orElse(ResponseEntity.notFound().build());
 	}
-	
+
 	@Transactional(readOnly = true)
 	@GetMapping(value = "/sku")
-	public ResponseEntity<Product> findBySku(@RequestParam(defaultValue = "") String sku){		
-		return service.findBySku(sku).map(ResponseEntity::ok).orElse(ResponseEntity.noContent().build());
+	public ResponseEntity<Product> findBySku(@RequestParam(defaultValue = "") String sku) {
+		return service.findBySku(sku).map(product -> ResponseEntity.ok(product))
+				.orElse(ResponseEntity.notFound().build());
 	}
 
 	@Transactional(readOnly = true)
 	@GetMapping
 	public ResponseEntity<List<Product>> findAll() {
-		List<Product> result = service.findAll();
-		if (!result.isEmpty()) {
-			return ResponseEntity.ok(result);
+		List<Product> products = service.findAll();
+		if (!products.isEmpty()) {
+			return ResponseEntity.ok(products);
 		}
 		return ResponseEntity.noContent().build();
 	}
@@ -50,21 +52,20 @@ public class ProductResource {
 	@Transactional(readOnly = true)
 	@GetMapping(value = "/page")
 	public ResponseEntity<Page<Product>> findAll(Pageable pageable) {
-		Page<Product> result = service.findAll(pageable);
-		if (!result.isEmpty()) {
-			return ResponseEntity.ok(result);
-		}
-		return ResponseEntity.noContent().build();
-	}
-	
-	@Transactional
-	@PostMapping
-	public ResponseEntity<Product> save (@RequestBody Product product) {
-		Product result = service.save(product);
-		if(result != null) {
-			return ResponseEntity.ok(result);
+		Page<Product> products = service.findAll(pageable);
+		if (!products.isEmpty()) {
+			return ResponseEntity.ok(products);
 		}
 		return ResponseEntity.noContent().build();
 	}
 
+	@Transactional
+	@PostMapping
+	public ResponseEntity<Product> save(@RequestBody Product product) {
+		Product savedProduct = service.save(product);
+		if (savedProduct != null) {
+			return ResponseEntity.ok(savedProduct);
+		}
+		return ResponseEntity.badRequest().build();
+	}
 }
