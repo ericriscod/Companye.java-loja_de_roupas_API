@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -61,10 +62,10 @@ public class ProductResource {
 	}
 
 
-	@PostMapping
-	public ResponseEntity<Product> save(@RequestBody Product product) {
+	@PostMapping(value = "/insert")
+	public ResponseEntity<Product> save(@RequestBody Product saveProduct) {
 		try {
-			Product savedProduct = service.save(product);
+			Product savedProduct = service.save(saveProduct);
 			return ResponseEntity.ok(savedProduct);
 
 		} catch (IllegalArgumentException e) {
@@ -75,10 +76,22 @@ public class ProductResource {
 
 	
 	//possível alteração
-	@PutMapping
+	@PutMapping(value = "/update")
 	public ResponseEntity<Product> update(@RequestBody Product updateProduct) {
 		try {
 			Product product = service.update(updateProduct);
+			return ResponseEntity.ok(product);
+			
+		} catch (IllegalArgumentException e) {
+			return ResponseEntity.badRequest().build();
+
+		}
+	}
+	
+	@PatchMapping(value = "/update")
+	public ResponseEntity<Product> update(@RequestParam String sku, Double price) {
+		try {
+			Product product = service.update(sku, price);
 			return ResponseEntity.ok(product);
 			
 		} catch (IllegalArgumentException e) {
