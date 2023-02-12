@@ -16,6 +16,8 @@ public class ProductService {
 
 	@Autowired
 	private ProductRepository repository;
+	
+	//Buscar
 
 	public Page<Product> findAll(Pageable pageable) {
 		return repository.findAll(pageable);
@@ -33,6 +35,8 @@ public class ProductService {
 		return repository.findBySku(sku.toUpperCase());
 	}
 
+	//Salvar
+	
 	public Product save(Product saveProduct) throws IllegalArgumentException {
 		Optional<Product> result = findBySku(saveProduct.getSku());
 
@@ -43,6 +47,8 @@ public class ProductService {
 		}
 		throw new IllegalArgumentException("There is already a product with the SKU informed: " + saveProduct.getSku());
 	}
+	
+	//Atualizar
 
 	public Product update(Product updateProduct) throws IllegalArgumentException {
 		if (updateProduct.getPrice() <= 0 || updateProduct.getStock().getQuantity() < 0) {

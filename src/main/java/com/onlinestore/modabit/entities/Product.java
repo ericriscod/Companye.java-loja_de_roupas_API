@@ -39,6 +39,7 @@ public class Product implements Serializable {
 	private CategoryEnum category;
 	@Enumerated(EnumType.STRING)
 	private DepartmentEnum department;
+	
 
 	@Embedded
 	private Stock stock;
