@@ -62,7 +62,7 @@ public class ProductResource {
 	}
 
 
-	@PostMapping(value = "/insert")
+	@PostMapping
 	public ResponseEntity<Product> save(@RequestBody Product saveProduct) {
 		try {
 			Product savedProduct = service.save(saveProduct);
@@ -76,7 +76,7 @@ public class ProductResource {
 
 	
 	//possível alteração
-	@PutMapping(value = "/update")
+	@PutMapping
 	public ResponseEntity<Product> update(@RequestBody Product updateProduct) {
 		try {
 			Product product = service.update(updateProduct);
@@ -88,7 +88,7 @@ public class ProductResource {
 		}
 	}
 	
-	@PatchMapping(value = "/update")
+	@PatchMapping
 	public ResponseEntity<Product> update(@RequestParam String sku, Double price) {
 		try {
 			Product product = service.update(sku, price);

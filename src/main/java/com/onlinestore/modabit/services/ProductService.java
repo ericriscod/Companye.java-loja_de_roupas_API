@@ -72,7 +72,7 @@ public class ProductService {
 			throw new IllegalArgumentException("Invalid sku or price or quantity");
 		}
 		
-		Product product = repository.findBySku(sku)
+		Product product = repository.findBySku(sku.toUpperCase())
 				.orElseThrow(() -> new IllegalArgumentException("No there is the product"));
 
 		product.setPrice(price);
