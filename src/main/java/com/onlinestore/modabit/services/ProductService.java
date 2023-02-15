@@ -41,41 +41,53 @@ public class ProductService {
 		Optional<Product> result = findBySku(saveProduct.getSku());
 
 		if (result.isEmpty()) {
-			saveProduct.insertEnum();
+			//
 			repository.save(saveProduct);
 			return saveProduct;
 		}
 		throw new IllegalArgumentException("There is already a product with the SKU informed: " + saveProduct.getSku());
 	}
 	
-	//Atualizar
+	//Atualizar no put
 
 	public Product update(Product updateProduct) throws IllegalArgumentException {
-		if (updateProduct.getPrice() <= 0 || updateProduct.getStock().getQuantity() < 0) {
+		if (updateProduct.getPrice() < 0 || updateProduct.getStock().getQuantity() <= 0) {
 			throw new IllegalArgumentException("Invalid price or quantity");
 		}
 
 		Product product = repository.findBySku(updateProduct.getSku())
 				.orElseThrow(() -> new IllegalArgumentException("No there is the product"));
-		
-		if(product.getStock().getQuantity() > updateProduct.getStock().getQuantity()) {
-			throw new IllegalArgumentException("Invalid quantity for updation");
-		}
+
 
 		product.setPrice(updateProduct.getPrice());
 		product.setStock(updateProduct.getStock());
 		return repository.save(product);
 	}
 
+	//Atualizar no patch
+	
 	public Product update(String sku, Double price) throws IllegalArgumentException {
 		if (sku.length() != 17 || price <= 0) {
-			throw new IllegalArgumentException("Invalid sku or price or quantity");
+			throw new IllegalArgumentException("Invalid sku or price");
 		}
 		
 		Product product = repository.findBySku(sku.toUpperCase())
 				.orElseThrow(() -> new IllegalArgumentException("No there is the product"));
 
 		product.setPrice(price);
+		return repository.save(product);
+
+	}
+	
+	public Product update(String sku, Integer quantity) throws IllegalArgumentException {
+		if (sku.length() != 17 || quantity <= 0) {
+			throw new IllegalArgumentException("Invalid sku or quantity");
+		}
+		
+		Product product = repository.findBySku(sku.toUpperCase())
+				.orElseThrow(() -> new IllegalArgumentException("No there is the product"));
+
+		product.getStock().setQuantity(quantity);
 		return repository.save(product);
 
 	}

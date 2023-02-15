@@ -16,7 +16,6 @@ public class CartShoppingService {
 	@Autowired
 	private ProductRepository productRepository;
 
-	@Autowired
 	private CartShopping cart;
 
 	// Burcar

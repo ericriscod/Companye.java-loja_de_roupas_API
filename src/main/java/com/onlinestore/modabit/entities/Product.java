@@ -65,7 +65,7 @@ public class Product implements Serializable {
 	public String getSku() {
 		return sku.toUpperCase();
 	}
-
+	
 	public Double getPrice() {
 		return price;
 	}

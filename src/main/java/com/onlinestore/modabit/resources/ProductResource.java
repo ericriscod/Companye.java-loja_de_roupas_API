@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -66,7 +67,7 @@ public class ProductResource {
 	public ResponseEntity<Product> save(@RequestBody Product saveProduct) {
 		try {
 			Product savedProduct = service.save(saveProduct);
-			return ResponseEntity.ok(savedProduct);
+			return ResponseEntity.status(HttpStatus.CREATED).body(savedProduct);
 
 		} catch (IllegalArgumentException e) {
 			return ResponseEntity.badRequest().build();
@@ -88,10 +89,22 @@ public class ProductResource {
 		}
 	}
 	
-	@PatchMapping
+	@PatchMapping(value="/price")
 	public ResponseEntity<Product> update(@RequestParam String sku, Double price) {
 		try {
 			Product product = service.update(sku, price);
+			return ResponseEntity.ok(product);
+			
+		} catch (IllegalArgumentException e) {
+			return ResponseEntity.badRequest().build();
+
+		}
+	}
+	
+	@PatchMapping(value="/quantity")
+	public ResponseEntity<Product> update(@RequestParam String sku, Integer quantity) {
+		try {
+			Product product = service.update(sku, quantity);
 			return ResponseEntity.ok(product);
 			
 		} catch (IllegalArgumentException e) {
