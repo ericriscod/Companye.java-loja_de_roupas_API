@@ -16,7 +16,7 @@ public class CartShoppingService {
 	@Autowired
 	private ProductRepository productRepository;
 
-	private CartShopping cart;
+	private static CartShopping cart = new CartShopping();
 
 	// Burcar
 
@@ -33,7 +33,7 @@ public class CartShoppingService {
 		throw new NoSuchElementException("Product not found");
 	}
 
-	public Product findBySku(String sku) throws NoSuchElementException {
+	public Product findBySku(String sku) {
 		if (sku.length() != 17) {
 			throw new IllegalArgumentException("Invalid sku");
 		}
@@ -46,7 +46,7 @@ public class CartShoppingService {
 
 	// Inserir
 
-	public Product insertBySku(String sku, Integer quantity) throws IllegalArgumentException {
+	public Product insertBySku(String sku, Integer quantity) {
 		if (sku.length() != 17 || quantity <= 0) {
 			throw new IllegalArgumentException("Invalid sku or quantity");
 		}
@@ -78,20 +78,20 @@ public class CartShoppingService {
 
 	// terminaro
 
-	public void removeBySku(String sku, Integer quantity) throws IllegalArgumentException {
+	public void removeBySku(String sku, Integer quantity) {
 		if (sku.length() != 17 || quantity <= 0) {
 			throw new IllegalArgumentException("Invalid sku or quantity");
 		}
 
 		for (Product prod : cart.getProducts()) {
 			if (prod.getSku().equalsIgnoreCase(sku)) {
-				
+
 				Integer quantityExistent = prod.getStock().getQuantity();
-				
+
 				if (quantityExistent < quantity) {
 					throw new IllegalArgumentException("Invalid quantity");
 				} else {
-					
+
 					prod.getStock().setQuantity(quantityExistent -= quantity);
 				}
 			}
@@ -102,8 +102,8 @@ public class CartShoppingService {
 		if (sku.length() != 17) {
 			throw new IllegalArgumentException("Invalid sku or quantity");
 		}
-		
-		if(!cart.getProducts().removeIf(product -> product.getSku().equalsIgnoreCase(sku))) {
+
+		if (!cart.getProducts().removeIf(product -> product.getSku().equalsIgnoreCase(sku))) {
 			throw new NoSuchElementException("Product not found");
 		}
 	}
