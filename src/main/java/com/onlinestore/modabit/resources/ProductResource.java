@@ -76,8 +76,6 @@ public class ProductResource {
 
 	}
 
-	
-	//possível alteração
 	@PutMapping
 	public ResponseEntity<Product> update(@RequestBody Product updateProduct) {
 		try {
