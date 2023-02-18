@@ -6,11 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.onlinestore.modabit.entities.Product;
@@ -73,6 +75,18 @@ public class CartShoppingResource {
 	public ResponseEntity<Product> update(@RequestBody Product updateProduct) {
 		try {
 			Product product = service.update(updateProduct);
+			return ResponseEntity.ok(product);
+			
+		} catch (NullPointerException e) {
+			return ResponseEntity.badRequest().build();
+
+		}
+	}
+	
+	@PatchMapping(value="/quantity")
+	public ResponseEntity<Product> update(@RequestParam String sku, Integer quantity) {
+		try {
+			Product product = service.update(sku, quantity);
 			return ResponseEntity.ok(product);
 			
 		} catch (NullPointerException e) {

@@ -61,11 +61,6 @@ public class CartShoppingService {
 		if (cart.getProducts().contains(product)) {
 
 			throw new RuntimeException("There is already a product with the SKU informed");
-			/*
-			 * for (Product prod : cart.getProducts()) { if (prod.equals(product)) { Integer
-			 * quantityExistent = prod.getStock().getQuantity();
-			 * prod.getStock().setQuantity(quantityExistent += quantity); return prod; } }
-			 */
 		}
 
 		// Inserindo produto no carrinho
@@ -92,6 +87,23 @@ public class CartShoppingService {
 
 		updateProduct.setPrice(product.getPrice());
 		updateProduct.setStock(product.getStock());
+		cart.getProducts().add(updateProduct);
+		return updateProduct;
+	}
+
+	public Product update(String sku, Integer quantity) {
+		if (sku.length() != 17 || quantity <= 0) {
+			throw new IllegalArgumentException("Invalid sku or quantity");
+		}
+
+		// buscando do carrinho
+		Product updateProduct = findBySku(sku.toUpperCase());
+
+		if (updateProduct == null) {
+			throw new IllegalArgumentException("There is not this product in the cart");
+		}
+
+		updateProduct.getStock().setQuantity(quantity);
 		cart.getProducts().add(updateProduct);
 		return updateProduct;
 	}
