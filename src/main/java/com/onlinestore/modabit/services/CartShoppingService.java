@@ -38,10 +38,12 @@ public class CartShoppingService {
 			throw new IllegalArgumentException("Invalid sku");
 		}
 
-		Product product = productRepository.findBySku(sku.toUpperCase())
-				.orElseThrow(() -> new NoSuchElementException("Product not found"));
-
-		return product;
+		for (Product prod : cart.getProducts()) {
+			if (prod.getSku().equalsIgnoreCase(sku)) {
+				return prod;
+			}
+		}
+		throw new NoSuchElementException("Product not found");
 	}
 
 	// Inserir
