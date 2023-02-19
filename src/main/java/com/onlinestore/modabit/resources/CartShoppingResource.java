@@ -49,12 +49,7 @@ public class CartShoppingResource {
 	@PostMapping(value = "/{sku}/{quantity}")
 	public ResponseEntity<Product> insertBySku(@PathVariable(value = "sku") String sku,
 			@PathVariable(value = "quantity") Integer quantity) {
-		return ResponseEntity.status(HttpStatus.CREATED).body(service.insertBySku(sku, quantity));
-	}
-
-	@PutMapping
-	public ResponseEntity<Product> update(@RequestBody Product updateProduct) {
-		return ResponseEntity.ok(service.update(updateProduct));
+		return ResponseEntity.status(HttpStatus.CREATED).body(service.save(sku, quantity));
 	}
 
 	@PatchMapping(value = "/quantity")

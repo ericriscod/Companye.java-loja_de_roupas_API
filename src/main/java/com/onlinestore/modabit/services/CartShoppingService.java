@@ -56,7 +56,7 @@ public class CartShoppingService {
 
 	// Inserir
 
-	public Product insertBySku(String sku, Integer quantity) {
+	public Product save(String sku, Integer quantity) {
 		if (sku.length() != 17 || quantity <= 0) {
 			throw new IllegalArgumentException("Invalid sku or quantity");
 		}
@@ -80,29 +80,7 @@ public class CartShoppingService {
 	}
 
 	// atualizando
-
-	public Product update(Product product) {
-
-		if (product.getPrice() < 0 || product.getStock().getQuantity() <= 0) {
-			throw new IllegalArgumentException("Invalid price or quantity");
-		}
-
-		if (cart.getProducts().isEmpty()) {
-			throw new NoSuchElementException("Cart Shopping is Empty");
-		}
-
-		// buscando no carrinho
-		Product updateProduct = findBySku(product.getSku());
-
-		if (updateProduct == null)
-			throw new IllegalArgumentException("There is not the product in the cart");
-
-		updateProduct.setPrice(product.getPrice());
-		updateProduct.setStock(product.getStock());
-		cart.getProducts().add(updateProduct);
-		return updateProduct;
-	}
-
+	
 	public Product update(String sku, Integer quantity) {
 		if (sku.length() != 17 || quantity <= 0) {
 			throw new IllegalArgumentException("Invalid sku or quantity");
