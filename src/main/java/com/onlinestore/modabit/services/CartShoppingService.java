@@ -25,17 +25,25 @@ public class CartShoppingService {
 	}
 
 	public Product findById(Long id) {
+		if (cart.getProducts().isEmpty()) {
+			throw new NoSuchElementException("Cart Shopping is Empty");
+		}
 		for (Product prod : cart.getProducts()) {
 			if (prod.getId().equals(id)) {
 				return prod;
 			}
 		}
 		throw new NoSuchElementException("Product not found");
+
 	}
 
 	public Product findBySku(String sku) {
 		if (sku.length() != 17) {
 			throw new IllegalArgumentException("Invalid sku");
+		}
+
+		if (cart.getProducts().isEmpty()) {
+			throw new NoSuchElementException("Cart Shopping is Empty");
 		}
 
 		for (Product prod : cart.getProducts()) {
@@ -56,7 +64,7 @@ public class CartShoppingService {
 		Product product = productRepository.findBySku(sku.toUpperCase())
 				.orElseThrow(() -> new IllegalArgumentException("Product not found"));
 
-		// Verificando se já existe e incrementando caso sim
+		// Verificando se já existe
 
 		if (cart.getProducts().contains(product)) {
 
@@ -79,11 +87,15 @@ public class CartShoppingService {
 			throw new IllegalArgumentException("Invalid price or quantity");
 		}
 
+		if (cart.getProducts().isEmpty()) {
+			throw new NoSuchElementException("Cart Shopping is Empty");
+		}
+
 		// buscando no carrinho
 		Product updateProduct = findBySku(product.getSku());
 
 		if (updateProduct == null)
-			throw new IllegalArgumentException("No there is the product");
+			throw new IllegalArgumentException("There is not the product in the cart");
 
 		updateProduct.setPrice(product.getPrice());
 		updateProduct.setStock(product.getStock());
@@ -94,6 +106,10 @@ public class CartShoppingService {
 	public Product update(String sku, Integer quantity) {
 		if (sku.length() != 17 || quantity <= 0) {
 			throw new IllegalArgumentException("Invalid sku or quantity");
+		}
+
+		if (cart.getProducts().isEmpty()) {
+			throw new NoSuchElementException("Cart Shopping is Empty");
 		}
 
 		// buscando do carrinho
@@ -110,37 +126,26 @@ public class CartShoppingService {
 
 	// remover
 
-	public void removeBySku(String sku, Integer quantity) {
-		if (sku.length() != 17 || quantity <= 0) {
-			throw new IllegalArgumentException("Invalid sku or quantity");
-		}
-
-		for (Product prod : cart.getProducts()) {
-			if (prod.getSku().equalsIgnoreCase(sku)) {
-
-				Integer quantityExistent = prod.getStock().getQuantity();
-
-				if (quantityExistent < quantity) {
-					throw new IllegalArgumentException("Invalid quantity");
-				} else {
-
-					prod.getStock().setQuantity(quantityExistent -= quantity);
-				}
-			}
-		}
-	}
-
-	public void removeAllBySku(String sku) {
+	public void removeBySku(String sku) {
 		if (sku.length() != 17) {
 			throw new IllegalArgumentException("Invalid sku or quantity");
+		}
+
+		if (cart.getProducts().isEmpty()) {
+			throw new NoSuchElementException("Cart Shopping is Empty");
 		}
 
 		if (!cart.getProducts().removeIf(product -> product.getSku().equalsIgnoreCase(sku))) {
 			throw new NoSuchElementException("Product not found");
 		}
+
 	}
 
 	public void removeAll() {
+		if (cart.getProducts().isEmpty()) {
+			throw new NoSuchElementException("Cart Shopping is Empty");
+		}
+
 		cart.getProducts().clear();
 	}
 }
