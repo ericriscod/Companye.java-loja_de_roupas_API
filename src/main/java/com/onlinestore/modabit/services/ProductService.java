@@ -29,16 +29,31 @@ public class ProductService {
 	}
 
 	public Optional<Product> findById(Long id) {
-		return repository.findById(id);
+
+		if (repository.findById(id).isPresent()) {
+			return repository.findById(id);
+		}
+
+		throw new NoSuchElementException("Product not found");
 	}
 
-	public Optional<Product> findBySku(String sku) {
-		return repository.findBySku(sku.toUpperCase());
+	public Product findBySku(String sku) {
+		if (sku.length() != 17) {
+			throw new IllegalArgumentException("Invalid sku");
+		}
+
+		Product product = repository.findBySku(sku.toUpperCase())
+				.orElseThrow(() -> new NoSuchElementException("Product not found"));
+		return product;
 	}
 
 	// Salvar
 
-	public Product save(Product saveProduct){
+	public Product save(Product saveProduct) {
+
+		if (saveProduct.getPrice() < 0 || saveProduct.getStock().getQuantity() <= 0) {
+			throw new IllegalArgumentException("Invalid price or quantity");
+		}
 
 		if (repository.findBySku(saveProduct.getSku()).isEmpty()) {
 			saveProduct.insertEnum();
@@ -46,19 +61,19 @@ public class ProductService {
 			return saveProduct;
 		}
 
-		throw new IllegalArgumentException("There is already a product with the SKU informed");
+		throw new NoSuchElementException("There is already a product with the SKU informed");
 	}
 
 	// Atualizar no put
 
-	public Product update(Product updateProduct){
+	public Product update(Product updateProduct) {
 
 		if (updateProduct.getPrice() < 0 || updateProduct.getStock().getQuantity() <= 0) {
 			throw new IllegalArgumentException("Invalid price or quantity");
 		}
 
 		Product product = repository.findBySku(updateProduct.getSku())
-				.orElseThrow(() -> new IllegalArgumentException("No there is the product"));
+				.orElseThrow(() -> new IllegalArgumentException("There is not the product"));
 
 		product.setPrice(updateProduct.getPrice());
 		product.setStock(updateProduct.getStock());
@@ -73,7 +88,7 @@ public class ProductService {
 		}
 
 		Product product = repository.findBySku(sku.toUpperCase())
-				.orElseThrow(() -> new IllegalArgumentException("No there is the product"));
+				.orElseThrow(() -> new IllegalArgumentException("There is not the product"));
 
 		product.setPrice(price);
 		return repository.save(product);
@@ -87,7 +102,7 @@ public class ProductService {
 		}
 
 		Product product = repository.findBySku(sku.toUpperCase())
-				.orElseThrow(() -> new IllegalArgumentException("No there is the product"));
+				.orElseThrow(() -> new IllegalArgumentException("There is not the product"));
 
 		product.getStock().setQuantity(quantity);
 		return repository.save(product);
@@ -95,14 +110,14 @@ public class ProductService {
 
 	// Deletar
 
-	public void deleteBySku(String sku){
+	public void deleteBySku(String sku) {
 		if (sku.length() != 17) {
 			throw new IllegalArgumentException("Invalid sku");
 		}
-		if(repository.findBySku(sku).isPresent()) {
+		if (repository.findBySku(sku).isPresent()) {
 			repository.deleteBySku(sku);
 			return;
 		}
-		throw new NoSuchElementException("Product not present");
+		throw new NoSuchElementException("Product not exist");
 	}
 }

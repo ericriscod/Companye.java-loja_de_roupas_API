@@ -30,20 +30,6 @@ public class ProductResource {
 	private ProductService service;
 
 	@Transactional(readOnly = true)
-	@GetMapping(value = "/search-id/{id}")
-	public ResponseEntity<Product> findById(@PathVariable Long id) {
-		return service.findById(id).map(product -> ResponseEntity.ok(product))
-				.orElse(ResponseEntity.badRequest().build());
-	}
-
-	@Transactional(readOnly = true)
-	@GetMapping(value = "/search-sku/{sku}")
-	public ResponseEntity<Product> findBySku(@PathVariable String sku) {
-		return service.findBySku(sku).map(product -> ResponseEntity.ok(product))
-				.orElse(ResponseEntity.badRequest().build());
-	}
-
-	@Transactional(readOnly = true)
 	@GetMapping
 	public ResponseEntity<List<Product>> findAll() {
 		List<Product> products = service.findAll();
@@ -63,57 +49,40 @@ public class ProductResource {
 		return ResponseEntity.noContent().build();
 	}
 
+	@Transactional(readOnly = true)
+	@GetMapping(value = "/search-id/{id}")
+	public ResponseEntity<Product> findById(@PathVariable Long id) {
+		return ResponseEntity.ok(service.findById(id).get());
+	}
+
+	@Transactional(readOnly = true)
+	@GetMapping(value = "/search-sku/{sku}")
+	public ResponseEntity<Product> findBySku(@PathVariable String sku) {
+		return ResponseEntity.ok(service.findBySku(sku));
+	}
 
 	@PostMapping
 	public ResponseEntity<Product> save(@RequestBody Product saveProduct) {
-		try {
-			Product savedProduct = service.save(saveProduct);
-			return ResponseEntity.status(HttpStatus.CREATED).body(savedProduct);
-
-		} catch (IllegalArgumentException e) {
-			return ResponseEntity.badRequest().build();
-		}
-
+			return ResponseEntity.status(HttpStatus.CREATED).body(service.save(saveProduct));
 	}
 
 	@PutMapping
-	public ResponseEntity<Product> update(@RequestBody Product updateProduct) {
-		try {
-			Product product = service.update(updateProduct);
-			return ResponseEntity.ok(product);
-			
-		} catch (IllegalArgumentException e) {
-			return ResponseEntity.badRequest().build();
-
-		}
+	public ResponseEntity<Product> update(@RequestBody Product updateProduct) {	
+			return ResponseEntity.ok(service.update(updateProduct));
 	}
-	
-	@PatchMapping(value="/price")
+
+	@PatchMapping(value = "/price")
 	public ResponseEntity<Product> update(@RequestParam String sku, Double price) {
-		try {
-			Product product = service.update(sku, price);
-			return ResponseEntity.ok(product);
-			
-		} catch (IllegalArgumentException e) {
-			return ResponseEntity.badRequest().build();
-
-		}
+			return ResponseEntity.ok(service.update(sku, price));
 	}
-	
-	@PatchMapping(value="/quantity")
+
+	@PatchMapping(value = "/quantity")
 	public ResponseEntity<Product> update(@RequestParam String sku, Integer quantity) {
-		try {
-			Product product = service.update(sku, quantity);
-			return ResponseEntity.ok(product);
-			
-		} catch (IllegalArgumentException e) {
-			return ResponseEntity.badRequest().build();
-
-		}
+			return ResponseEntity.ok(service.update(sku, quantity));
 	}
-	
+
 	@Transactional
-	@DeleteMapping(value ="/{sku}")
+	@DeleteMapping(value = "/{sku}")
 	public void delete(@PathVariable String sku) {
 		service.deleteBySku(sku);
 	}
