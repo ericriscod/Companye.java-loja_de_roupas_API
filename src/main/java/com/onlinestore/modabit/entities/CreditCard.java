@@ -1,5 +1,8 @@
 package com.onlinestore.modabit.entities;
 
+import jakarta.persistence.Entity;
+
+@Entity
 public class CreditCard extends PaymentMethod{
 
 	private String cardNumber;

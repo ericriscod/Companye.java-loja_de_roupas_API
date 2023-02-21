@@ -5,9 +5,29 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class CartShopping implements Serializable {
-	private static final long serialVersionUID = 1L;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
+@Entity
+@Table(name = "tb_cartshopping")
+public class CartShopping implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
+	
+	@OneToMany
 	private Set<Product> products = new HashSet<>();
 
 	private Double price;

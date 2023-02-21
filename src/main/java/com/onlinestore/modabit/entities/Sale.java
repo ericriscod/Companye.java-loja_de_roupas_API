@@ -2,11 +2,25 @@ package com.onlinestore.modabit.entities;
 
 import java.util.Objects;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "tb_sale")
 public class Sale {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@OneToOne
 	private PaymentMethod paymentMethod;
+	
+	@OneToOne
 	private CartShopping cartShopping;
 	
 	public Sale() {
