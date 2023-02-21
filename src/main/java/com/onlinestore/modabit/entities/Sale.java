@@ -1,5 +1,6 @@
 package com.onlinestore.modabit.entities;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import jakarta.persistence.Entity;
@@ -20,15 +21,21 @@ public class Sale {
 	@OneToOne
 	private PaymentMethod paymentMethod;
 	
+	private String cpf;
+	
+	private LocalDateTime moment;
+	
 	@OneToOne
 	private CartShopping cartShopping;
 	
 	public Sale() {
 	}
 	
-	public Sale(PaymentMethod paymentMethod, CartShopping cartShopping) {
+	public Sale(PaymentMethod paymentMethod, String cpf, LocalDateTime moment,CartShopping cartShopping) {
 		super();
 		this.paymentMethod = paymentMethod;
+		this.cpf = cpf;
+		this.moment = moment;
 		this.cartShopping = cartShopping;
 	}
 
@@ -48,6 +55,23 @@ public class Sale {
 
 	public void setPaymentMethod(PaymentMethod paymentMethod) {
 		this.paymentMethod = paymentMethod;
+	}
+	
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+	
+	public LocalDateTime getMoment() {
+		return moment;
+	}
+
+	public void setMoment(LocalDateTime moment) {
+		this.moment = moment;
 	}
 
 	public CartShopping getCartShopping() {

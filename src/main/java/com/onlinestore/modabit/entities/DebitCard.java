@@ -8,8 +8,8 @@ public class DebitCard extends PaymentMethod {
 	private String cardNumber;
     private String pin;
     
-	public DebitCard(String cpf, String cardNumber, String pin) {
-		super(cpf);
+	public DebitCard(Double amount, String cardNumber, String pin) {
+		super(amount);
 		this.cardNumber = cardNumber;
 		this.pin = pin;
 	}

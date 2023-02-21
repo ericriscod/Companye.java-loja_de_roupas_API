@@ -16,19 +16,20 @@ public abstract class PaymentMethod  {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String  cpf;
+	
+	private Double  amount;
 
-	public PaymentMethod(String cpf) {
+	public PaymentMethod(Double amount) {
 		super();
-		this.cpf = cpf;
+		this.amount = amount;
 	}
 
-	public String getCpf() {
-		return cpf;
+	public Double getAmount() {
+		return amount;
 	}
 
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
+	public void setAmount(Double amount) {
+		this.amount = amount;
 	}
 	
 	

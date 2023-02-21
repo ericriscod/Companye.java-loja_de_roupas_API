@@ -8,8 +8,8 @@ public class CreditCard extends PaymentMethod{
 	private String cardNumber;
     private String expirationDate;
     
-	public CreditCard(String cpf, String cardNumber, String expirationDate) {
-		super(cpf);
+	public CreditCard(Double amount, String cardNumber, String expirationDate) {
+		super(amount);
 		this.cardNumber = cardNumber;
 		this.expirationDate = expirationDate;
 	}
