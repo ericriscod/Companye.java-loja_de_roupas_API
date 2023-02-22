@@ -6,12 +6,12 @@ import jakarta.persistence.Entity;
 public class DebitCard extends PaymentMethod {
 	
 	private String cardNumber;
-    private String pin;
+    private String securityCode;
     
-	public DebitCard(Double amount, String cardNumber, String pin) {
+	public DebitCard(Double amount, String cardNumber, String securityCode) {
 		super(amount);
 		this.cardNumber = cardNumber;
-		this.pin = pin;
+		this.securityCode = securityCode;
 	}
 
 	public String getCardNumber() {
@@ -22,12 +22,12 @@ public class DebitCard extends PaymentMethod {
 		this.cardNumber = cardNumber;
 	}
 
-	public String getPin() {
-		return pin;
+	public String getSecurityCode() {
+		return securityCode;
 	}
 
-	public void setPin(String pin) {
-		this.pin = pin;
+	public void setSecurityCode(String securityCode) {
+		this.securityCode = securityCode;
 	}
 
 }
