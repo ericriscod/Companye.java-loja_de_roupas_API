@@ -1,11 +1,14 @@
 package com.onlinestore.modabit.entities;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Transient;
 
 @Entity
 public class DebitCard extends PaymentMethod {
 	
 	private String cardNumber;
+	
+	@Transient
     private String securityCode;
     
 	public DebitCard(Double amount, String cardNumber, String securityCode) {
