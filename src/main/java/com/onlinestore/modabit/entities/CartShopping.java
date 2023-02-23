@@ -30,11 +30,15 @@ public class CartShopping implements Serializable{
 	@OneToMany
 	private Set<Product> products = new HashSet<>();
 
-	private Double price;
-	private Integer quantity;
-
 	public CartShopping() {
 	}
+	
+	public CartShopping(Set<Product> products) {
+		super();
+		this.products = products;
+	}
+
+
 
 
 	public Set<Product> getProducts() {
@@ -43,22 +47,6 @@ public class CartShopping implements Serializable{
 
 	public void setProducts(Set<Product> products) {
 		this.products = products;
-	}
-
-	public Double getPrice() {
-		return price;
-	}
-
-	public void setPrice(Double price) {
-		this.price = price;
-	}
-
-	public Integer getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(Integer quantity) {
-		this.quantity = quantity;
 	}
 
 	@Override

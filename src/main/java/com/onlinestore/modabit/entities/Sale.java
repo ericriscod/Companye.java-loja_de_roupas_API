@@ -31,7 +31,7 @@ public class Sale {
 	public Sale() {
 	}
 	
-	public Sale(PaymentMethod paymentMethod, String cpf, LocalDateTime moment,CartShopping cartShopping) {
+	public Sale(PaymentMethod paymentMethod, String cpf, LocalDateTime moment, CartShopping cartShopping) {
 		super();
 		this.paymentMethod = paymentMethod;
 		this.cpf = cpf;
