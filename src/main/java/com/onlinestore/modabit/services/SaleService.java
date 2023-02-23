@@ -50,7 +50,7 @@ public class SaleService {
 		throw new NoSuchElementException("Product not found");
 	}
 
-	public void validateSale(PaymentMethod paymentMethod, String cpf, LocalDateTime moment) {
+	public Sale validateSale(PaymentMethod paymentMethod, String cpf, LocalDateTime moment) {
 
 		if (cartShoppingService.findAll().isEmpty()) {
 			throw new NoSuchElementException("Cart Shopping is Empty");
@@ -73,6 +73,28 @@ public class SaleService {
 
 		repository.save(sale);
 
+		return sale;
+	}
+
+	public Sale validateSale(PaymentMethod paymentMethod, LocalDateTime moment) {
+
+		if (cartShoppingService.findAll().isEmpty()) {
+			throw new NoSuchElementException("Cart Shopping is Empty");
+		}
+
+		// Validação da quantidade no estoque se há produtos disponíveis
+		validateStock();
+
+		for (String sku : map.keySet()) {
+			productService.findBySku(sku).getStock().setQuantity(map.get(sku));
+		}
+
+		CartShopping cartShopping = new CartShopping(cartShoppingService.findAll());
+		Sale sale = new Sale(paymentMethod, moment, cartShopping);
+
+		repository.save(sale);
+
+		return sale;
 	}
 
 	private void validateStock() {

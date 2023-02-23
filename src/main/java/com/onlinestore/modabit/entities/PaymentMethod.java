@@ -11,26 +11,12 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "tb_paymentmethod")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public abstract class PaymentMethod  {
+public class PaymentMethod  {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private Double  amount;
-
-	public PaymentMethod(Double amount) {
-		super();
-		this.amount = amount;
+	public PaymentMethod() {
 	}
-
-	public Double getAmount() {
-		return amount;
-	}
-
-	public void setAmount(Double amount) {
-		this.amount = amount;
-	}
-	
-	
 }

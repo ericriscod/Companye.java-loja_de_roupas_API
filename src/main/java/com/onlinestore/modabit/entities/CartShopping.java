@@ -15,13 +15,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "tb_cartshopping")
 public class CartShopping implements Serializable{
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	
-	
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,9 +31,6 @@ public class CartShopping implements Serializable{
 		super();
 		this.products = products;
 	}
-
-
-
 
 	public Set<Product> getProducts() {
 		return products;

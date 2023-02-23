@@ -9,8 +9,7 @@ public class Boleto extends PaymentMethod{
 	
 	private LocalDate expirationDate;
 	
-	public Boleto(Double amount, LocalDate expirationDate) {
-		super(amount);
+	public Boleto(LocalDate expirationDate) {
 		this.expirationDate = expirationDate;
 	}
 

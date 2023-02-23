@@ -10,10 +10,12 @@ public class CreditCard extends PaymentMethod {
 	private String expirationDate;
 	
 	@Transient
-	private String securityCode;
+	private Integer securityCode;
+	
+	public CreditCard() {
+	}
 
-	public CreditCard(Double amount, String cardNumber, String expirationDate, String securityCode) {
-		super(amount);
+	public CreditCard(String cardNumber, String expirationDate, Integer securityCode) {
 		this.cardNumber = cardNumber;
 		this.expirationDate = expirationDate;
 		this.securityCode = securityCode;
@@ -35,11 +37,11 @@ public class CreditCard extends PaymentMethod {
 		this.expirationDate = expirationDate;
 	}
 
-	public String getSecurityCode() {
+	public Integer getSecurityCode() {
 		return securityCode;
 	}
 
-	public void setSecurityCode(String securityCode) {
+	public void setSecurityCode(Integer securityCode) {
 		this.securityCode = securityCode;
 	}
 

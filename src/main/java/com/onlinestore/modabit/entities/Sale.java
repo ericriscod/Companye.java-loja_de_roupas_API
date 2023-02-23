@@ -41,6 +41,13 @@ public class Sale {
 
 
 
+	public Sale(PaymentMethod paymentMethod, LocalDateTime moment, CartShopping cartShopping) {
+		super();
+		this.paymentMethod = paymentMethod;
+		this.moment = moment;
+		this.cartShopping = cartShopping;
+	}
+
 	public Long getId() {
 		return id;
 	}

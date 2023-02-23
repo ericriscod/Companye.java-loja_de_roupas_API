@@ -4,8 +4,10 @@ public class Pix extends PaymentMethod{
 	
 	private String keyPix;
 
-	public Pix(Double amount, String keyPix) {
-		super(amount);
+	public Pix() {
+	}
+	
+	public Pix(String keyPix) {
 		this.keyPix = keyPix;
 	}
 

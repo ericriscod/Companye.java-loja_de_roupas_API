@@ -5,14 +5,16 @@ import jakarta.persistence.Transient;
 
 @Entity
 public class DebitCard extends PaymentMethod {
-	
+
 	private String cardNumber;
-	
+
 	@Transient
-    private String securityCode;
-    
-	public DebitCard(Double amount, String cardNumber, String securityCode) {
-		super(amount);
+	private String securityCode;
+	
+	public DebitCard() {
+	}
+
+	public DebitCard(String cardNumber, String securityCode) {
 		this.cardNumber = cardNumber;
 		this.securityCode = securityCode;
 	}
