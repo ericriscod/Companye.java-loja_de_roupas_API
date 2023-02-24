@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.onlinestore.modabit.entities.DebitCard;
 import com.onlinestore.modabit.entities.Sale;
+import com.onlinestore.modabit.entities.payments.DebitCard;
 import com.onlinestore.modabit.services.SaleService;
 
 @RestController

@@ -13,9 +13,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.onlinestore.modabit.entities.CartShopping;
-import com.onlinestore.modabit.entities.DebitCard;
 import com.onlinestore.modabit.entities.Product;
 import com.onlinestore.modabit.entities.Sale;
+import com.onlinestore.modabit.entities.payments.DebitCard;
 import com.onlinestore.modabit.repositories.CartShoppingRepository;
 import com.onlinestore.modabit.repositories.PaymentRepository;
 import com.onlinestore.modabit.repositories.ProductRepository;

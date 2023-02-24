@@ -1,4 +1,4 @@
-package com.onlinestore.modabit.entities;
+package com.onlinestore.modabit.entities.payments;
 
 public class Pix extends PaymentMethod{
 	
