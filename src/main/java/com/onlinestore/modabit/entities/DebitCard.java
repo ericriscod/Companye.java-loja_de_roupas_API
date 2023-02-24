@@ -1,20 +1,18 @@
 package com.onlinestore.modabit.entities;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.Transient;
 
 @Entity
 public class DebitCard extends PaymentMethod {
 
 	private String cardNumber;
 
-	@Transient
-	private String securityCode;
+	private Integer securityCode;
 	
 	public DebitCard() {
 	}
 
-	public DebitCard(String cardNumber, String securityCode) {
+	public DebitCard(String cardNumber, Integer securityCode) {
 		this.cardNumber = cardNumber;
 		this.securityCode = securityCode;
 	}
@@ -27,11 +25,11 @@ public class DebitCard extends PaymentMethod {
 		this.cardNumber = cardNumber;
 	}
 
-	public String getSecurityCode() {
+	public Integer getSecurityCode() {
 		return securityCode;
 	}
 
-	public void setSecurityCode(String securityCode) {
+	public void setSecurityCode(Integer securityCode) {
 		this.securityCode = securityCode;
 	}
 

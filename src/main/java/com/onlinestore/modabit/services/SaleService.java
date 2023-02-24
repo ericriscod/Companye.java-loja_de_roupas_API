@@ -1,6 +1,6 @@
 package com.onlinestore.modabit.services;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,16 +13,28 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.onlinestore.modabit.entities.CartShopping;
-import com.onlinestore.modabit.entities.PaymentMethod;
+import com.onlinestore.modabit.entities.DebitCard;
 import com.onlinestore.modabit.entities.Product;
 import com.onlinestore.modabit.entities.Sale;
+import com.onlinestore.modabit.repositories.CartShoppingRepository;
+import com.onlinestore.modabit.repositories.PaymentRepository;
+import com.onlinestore.modabit.repositories.ProductRepository;
 import com.onlinestore.modabit.repositories.SaleRepository;
 
 @Service
 public class SaleService {
 
 	@Autowired
-	private SaleRepository repository;
+	private ProductRepository productRepository;
+
+	@Autowired
+	private PaymentRepository paymentRepository;
+
+	@Autowired
+	private SaleRepository saleRepository;
+
+	@Autowired
+	private CartShoppingRepository cartRepository;
 
 	@Autowired
 	private CartShoppingService cartShoppingService;
@@ -31,26 +43,26 @@ public class SaleService {
 	private ProductService productService;
 
 	// Armazenar quantidades por sku para validação da venda.
-	private Map<String, Integer> map;
+	private Map<String, Integer> map = new HashMap<>();
 
 	public Page<Sale> findAll(Pageable pageable) {
-		return repository.findAll(pageable);
+		return saleRepository.findAll(pageable);
 	}
 
 	public List<Sale> findAll() {
-		return repository.findAll();
+		return saleRepository.findAll();
 	}
 
 	public Optional<Sale> findById(Long id) {
 
-		if (repository.findById(id).isPresent()) {
-			return repository.findById(id);
+		if (saleRepository.findById(id).isPresent()) {
+			return saleRepository.findById(id);
 		}
 
 		throw new NoSuchElementException("Product not found");
 	}
 
-	public Sale validateSale(PaymentMethod paymentMethod, String cpf, LocalDateTime moment) {
+	public Sale validateSale(DebitCard debitCard, String cpf, LocalDate moment) {
 
 		if (cartShoppingService.findAll().isEmpty()) {
 			throw new NoSuchElementException("Cart Shopping is Empty");
@@ -69,14 +81,16 @@ public class SaleService {
 		}
 
 		CartShopping cartShopping = new CartShopping(cartShoppingService.findAll());
-		Sale sale = new Sale(paymentMethod, cpf, moment, cartShopping);
+		Sale sale = new Sale(debitCard, cpf, moment, cartShopping);
 
-		repository.save(sale);
+		paymentRepository.save(debitCard);
+		cartRepository.save(cartShopping);
+		saleRepository.save(sale);
 
 		return sale;
 	}
 
-	public Sale validateSale(PaymentMethod paymentMethod, LocalDateTime moment) {
+	public Sale validateSale(DebitCard debitCard, LocalDate moment) {
 
 		if (cartShoppingService.findAll().isEmpty()) {
 			throw new NoSuchElementException("Cart Shopping is Empty");
@@ -85,19 +99,29 @@ public class SaleService {
 		// Validação da quantidade no estoque se há produtos disponíveis
 		validateStock();
 
+		CartShopping cartShopping = new CartShopping();
+		cartShopping.setProducts(cartShoppingService.findAll());
+
+		Sale sale = new Sale(debitCard, moment, cartShopping);
+
 		for (String sku : map.keySet()) {
-			productService.findBySku(sku).getStock().setQuantity(map.get(sku));
+			Product prod = productService.findBySku(sku);
+			
+			prod.getStock().setQuantity(map.get(sku));
+
+			productRepository.save(prod);
 		}
 
-		CartShopping cartShopping = new CartShopping(cartShoppingService.findAll());
-		Sale sale = new Sale(paymentMethod, moment, cartShopping);
-
-		repository.save(sale);
+		paymentRepository.save(debitCard);
+		cartRepository.save(cartShopping);
+		saleRepository.save(sale);
 
 		return sale;
 	}
 
 	private void validateStock() {
+
+		map.clear();
 
 		for (Product cartShopping : cartShoppingService.findAll()) {
 			Integer quantityInStock = productService.findBySku(cartShopping.getSku()).getStock().getQuantity();
@@ -111,7 +135,6 @@ public class SaleService {
 			Integer stock = productService.findBySku(cartShopping.getSku()).getStock().getQuantity();
 			Integer cart = cartShopping.getStock().getQuantity();
 
-			map = new HashMap<>();
 			map.put(cartShopping.getSku(), (stock - cart));
 		}
 	}

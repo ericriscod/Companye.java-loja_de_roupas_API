@@ -1,6 +1,6 @@
 package com.onlinestore.modabit.resources;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.onlinestore.modabit.entities.PaymentMethod;
+import com.onlinestore.modabit.entities.DebitCard;
 import com.onlinestore.modabit.entities.Sale;
 import com.onlinestore.modabit.services.SaleService;
 
@@ -52,11 +52,9 @@ public class SaleResource {
 		return ResponseEntity.ok(service.findById(id).get());
 	}
 	
-	@PostMapping
-	public ResponseEntity<Sale> sale(@RequestBody PaymentMethod paymentMethod){
-	
-		LocalDateTime dateNow = LocalDateTime.now();
-		
-		return ResponseEntity.ok(service.validateSale(paymentMethod, dateNow));
+	@PostMapping(value = "/debitcard")
+	public ResponseEntity<Sale> sale(@RequestBody DebitCard debitCard){
+		LocalDate dateNow = LocalDate.now();
+		return ResponseEntity.ok(service.validateSale(debitCard, dateNow));
 	}
 }
