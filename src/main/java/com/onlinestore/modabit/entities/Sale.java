@@ -2,6 +2,7 @@ package com.onlinestore.modabit.entities;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -28,7 +29,7 @@ public class Sale implements Serializable{
 	
 	private String cpf;
 	
-	private LocalDate moment;
+	private LocalDateTime moment;
 	
 	@OneToOne
 	private CartShopping cartShopping;
@@ -36,7 +37,7 @@ public class Sale implements Serializable{
 	public Sale() {
 	}
 	
-	public Sale(PaymentMethod paymentMethod, String cpf, LocalDate moment, CartShopping cartShopping) {
+	public Sale(PaymentMethod paymentMethod, String cpf, LocalDateTime moment, CartShopping cartShopping) {
 		super();
 		this.paymentMethod = paymentMethod;
 		this.cpf = cpf;
@@ -46,7 +47,7 @@ public class Sale implements Serializable{
 
 
 
-	public Sale(PaymentMethod paymentMethod, LocalDate moment, CartShopping cartShopping) {
+	public Sale(PaymentMethod paymentMethod, LocalDateTime moment, CartShopping cartShopping) {
 		super();
 		this.paymentMethod = paymentMethod;
 		this.moment = moment;
@@ -78,11 +79,11 @@ public class Sale implements Serializable{
 		this.cpf = cpf;
 	}
 	
-	public LocalDate getMoment() {
+	public LocalDateTime getMoment() {
 		return moment;
 	}
 
-	public void setMoment(LocalDate moment) {
+	public void setMoment(LocalDateTime moment) {
 		this.moment = moment;
 	}
 

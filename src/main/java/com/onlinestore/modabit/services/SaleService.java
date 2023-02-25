@@ -1,6 +1,7 @@
 package com.onlinestore.modabit.services;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,7 +77,7 @@ public class SaleService {
 		// Validação da quantidade no estoque
 		validateStock();
 
-		Sale sale = new Sale(debitCard, LocalDate.now(), cartShopping);
+		Sale sale = new Sale(debitCard, LocalDateTime.now(), cartShopping);
 
 		paymentRepository.save(debitCard);
 		cartRepository.save(cartShopping);
@@ -89,6 +90,43 @@ public class SaleService {
 			prod.getStock().setQuantity(map.get(sku));
 			productRepository.save(prod);
 		}
+		
+		
+		return sale;
+	}
+	
+	@Transactional
+	public Sale validateSale(String cpf, DebitCard debitCard) {
+
+		if(cpf.length() != 11) {
+			throw new IllegalArgumentException("Invalid cpf");
+		}
+		
+		if (cartShoppingService.findAll().isEmpty()) {
+			throw new NoSuchElementException("Cart Shopping is Empty");
+		}
+
+		CartShopping cartShopping = new CartShopping(cartShoppingService.findAll());
+
+
+		// Validação da quantidade no estoque
+		validateStock();
+
+		Sale sale = new Sale(debitCard, cpf, LocalDateTime.now(), cartShopping);
+
+		paymentRepository.save(debitCard);
+		cartRepository.save(cartShopping);
+		saleRepository.save(sale);
+
+		// Atualizando estoque
+		for (String sku : map.keySet()) {
+			Product prod = productService.findBySku(sku);
+
+			prod.getStock().setQuantity(map.get(sku));
+			productRepository.save(prod);
+		}
+		
+		
 		return sale;
 	}
 

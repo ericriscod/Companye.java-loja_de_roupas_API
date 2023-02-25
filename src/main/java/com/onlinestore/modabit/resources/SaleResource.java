@@ -56,4 +56,10 @@ public class SaleResource {
 	public ResponseEntity<Sale> saleDebitCard(@RequestBody DebitCard debitCard){
 		return ResponseEntity.ok(service.validateSale(debitCard));
 	}
+	
+	@Transactional
+	@PostMapping(value = "/debitcard/{cpf}")
+	public ResponseEntity<Sale> saleDebitCard(@PathVariable String cpf, @RequestBody DebitCard debitCard){
+		return ResponseEntity.ok(service.validateSale(cpf, debitCard));
+	}
 }
