@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.onlinestore.modabit.entities.Product;
 import com.onlinestore.modabit.repositories.ProductRepository;
@@ -48,7 +49,7 @@ public class ProductService {
 	}
 
 	// Salvar
-
+	@Transactional
 	public Product save(Product saveProduct) {
 
 		if (saveProduct.getPrice() < 0 || saveProduct.getStock().getQuantity() <= 0) {
@@ -65,7 +66,7 @@ public class ProductService {
 	}
 
 	// Atualizar no put
-
+	@Transactional
 	public Product update(Product updateProduct) {
 
 		if (updateProduct.getPrice() < 0 || updateProduct.getStock().getQuantity() <= 0) {
@@ -81,7 +82,7 @@ public class ProductService {
 	}
 
 	// Atualizar no patch
-
+	@Transactional
 	public Product update(String sku, Double price) {
 		if (sku.length() != 17 || price <= 0) {
 			throw new IllegalArgumentException("Invalid sku or price");
@@ -94,7 +95,7 @@ public class ProductService {
 		return repository.save(product);
 
 	}
-
+	@Transactional
 	public Product update(String sku, Integer quantity) {
 
 		if (sku.length() != 17 || quantity <= 0) {
@@ -109,7 +110,7 @@ public class ProductService {
 	}
 
 	// Deletar
-
+	@Transactional
 	public void deleteBySku(String sku) {
 		if (sku.length() != 17) {
 			throw new IllegalArgumentException("Invalid sku");

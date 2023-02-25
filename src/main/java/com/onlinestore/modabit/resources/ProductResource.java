@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.onlinestore.modabit.entities.Product;
@@ -61,24 +60,30 @@ public class ProductResource {
 		return ResponseEntity.ok(service.findBySku(sku));
 	}
 
+	@Transactional
 	@PostMapping
 	public ResponseEntity<Product> save(@RequestBody Product saveProduct) {
-			return ResponseEntity.status(HttpStatus.CREATED).body(service.save(saveProduct));
+		return ResponseEntity.status(HttpStatus.CREATED).body(service.save(saveProduct));
 	}
 
+	@Transactional
 	@PutMapping
-	public ResponseEntity<Product> update(@RequestBody Product updateProduct) {	
-			return ResponseEntity.ok(service.update(updateProduct));
+	public ResponseEntity<Product> update(@RequestBody Product updateProduct) {
+		return ResponseEntity.ok(service.update(updateProduct));
 	}
 
-	@PatchMapping(value = "/price")
-	public ResponseEntity<Product> update(@RequestParam String sku, Double price) {
-			return ResponseEntity.ok(service.update(sku, price));
+	@Transactional
+	@PatchMapping(value = "/price/{sku}/{price}")
+	public ResponseEntity<Product> update(@PathVariable(value = "sku") String sku,
+			@PathVariable(value = "price") Double price) {
+		return ResponseEntity.ok(service.update(sku, price));
 	}
 
-	@PatchMapping(value = "/quantity")
-	public ResponseEntity<Product> update(@RequestParam String sku, Integer quantity) {
-			return ResponseEntity.ok(service.update(sku, quantity));
+	@Transactional
+	@PatchMapping(value = "/quantity/{sku}/{quantity}")
+	public ResponseEntity<Product> update(@PathVariable(value = "sku") String sku,
+			@PathVariable(value = "quantity") Integer quantity) {
+		return ResponseEntity.ok(service.update(sku, quantity));
 	}
 
 	@Transactional
