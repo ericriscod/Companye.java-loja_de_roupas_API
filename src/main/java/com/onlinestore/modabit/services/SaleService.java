@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.onlinestore.modabit.entities.CartShopping;
 import com.onlinestore.modabit.entities.Product;
@@ -89,7 +90,8 @@ public class SaleService {
 
 		return sale;
 	}*/
-
+	
+	@Transactional
 	public Sale validateSale(DebitCard debitCard, LocalDate moment) {
 
 		if (cartShoppingService.findAll().isEmpty()) {
@@ -97,16 +99,15 @@ public class SaleService {
 		}
 
 		CartShopping cartShopping = cartShoppingService.getCartShopping();
+		
+		// Validação da quantidade no estoque
+		validateStock();
 				
 		Sale sale = new Sale(debitCard, moment, cartShopping);
 
 		paymentRepository.save(debitCard);	
 		cartRepository.save(cartShopping);
 		saleRepository.save(sale);
-		
-		
-		// Validação da quantidade no estoque se há produtos disponíveis
-		validateStock();
 		
 		// Atualizando estoque
 		for (String sku : map.keySet()) {
