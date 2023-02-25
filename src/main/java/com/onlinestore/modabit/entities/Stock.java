@@ -4,7 +4,7 @@ import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class Stock {
-
+	
 	private Integer quantity;
 
 	public Stock() {

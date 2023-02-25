@@ -17,6 +17,10 @@ public class CartShoppingService {
 	private ProductRepository productRepository;
 
 	private static CartShopping cart = new CartShopping();
+	
+	public CartShopping getCartShopping() {
+		return cart;
+	}
 
 	// Burcar
 
@@ -28,9 +32,9 @@ public class CartShoppingService {
 		if (cart.getProducts().isEmpty()) {
 			throw new NoSuchElementException("Cart Shopping is Empty");
 		}
-		for (Product prod : cart.getProducts()) {
-			if (prod.getId().equals(id)) {
-				return prod;
+		for (Product product : cart.getProducts()) {
+			if (product.getId().equals(id)) {
+				return product;
 			}
 		}
 		throw new NoSuchElementException("Product not found");
@@ -46,9 +50,11 @@ public class CartShoppingService {
 			throw new NoSuchElementException("Cart Shopping is Empty");
 		}
 
-		for (Product prod : cart.getProducts()) {
-			if (prod.getSku().equalsIgnoreCase(sku)) {
-				return prod;
+		for (Product product : cart.getProducts()) {
+
+			if (product.getSku().equalsIgnoreCase(sku)) {
+
+				return product;
 			}
 		}
 		throw new NoSuchElementException("Product not found");
@@ -80,7 +86,7 @@ public class CartShoppingService {
 	}
 
 	// atualizando
-	
+
 	public Product update(String sku, Integer quantity) {
 		if (sku.length() != 17 || quantity <= 0) {
 			throw new IllegalArgumentException("Invalid sku or quantity");
@@ -98,6 +104,7 @@ public class CartShoppingService {
 		}
 
 		updateProduct.getStock().setQuantity(quantity);
+
 		cart.getProducts().add(updateProduct);
 		return updateProduct;
 	}
@@ -113,7 +120,7 @@ public class CartShoppingService {
 			throw new NoSuchElementException("Cart Shopping is Empty");
 		}
 
-		if (!cart.getProducts().removeIf(product -> product.getSku().equalsIgnoreCase(sku))) {
+		if (!cart.getProducts().removeIf(prod -> prod.getSku().equalsIgnoreCase(sku))) {
 			throw new NoSuchElementException("Product not found");
 		}
 
@@ -126,6 +133,6 @@ public class CartShoppingService {
 
 		cart.getProducts().clear();
 	}
-	
+
 	//
 }

@@ -62,7 +62,7 @@ public class SaleService {
 		throw new NoSuchElementException("Product not found");
 	}
 
-	public Sale validateSale(DebitCard debitCard, String cpf, LocalDate moment) {
+	/*public Sale validateSale(DebitCard debitCard, String cpf, LocalDate moment) {
 
 		if (cartShoppingService.findAll().isEmpty()) {
 			throw new NoSuchElementException("Cart Shopping is Empty");
@@ -88,7 +88,7 @@ public class SaleService {
 		saleRepository.save(sale);
 
 		return sale;
-	}
+	}*/
 
 	public Sale validateSale(DebitCard debitCard, LocalDate moment) {
 
@@ -99,22 +99,23 @@ public class SaleService {
 		// Validação da quantidade no estoque se há produtos disponíveis
 		validateStock();
 
-		CartShopping cartShopping = new CartShopping();
-		cartShopping.setProducts(cartShoppingService.findAll());
-
+		CartShopping cartShopping = cartShoppingService.getCartShopping();
+				
 		Sale sale = new Sale(debitCard, moment, cartShopping);
-
-		for (String sku : map.keySet()) {
-			Product prod = productService.findBySku(sku);
-			
-			prod.getStock().setQuantity(map.get(sku));
-
-			productRepository.save(prod);
-		}
 
 		paymentRepository.save(debitCard);
 		cartRepository.save(cartShopping);
 		saleRepository.save(sale);
+		
+		
+		// Atualizando estoque
+		
+		for (String sku : map.keySet()) {
+			Product prod = productService.findBySku(sku);
+			
+			prod.getStock().setQuantity(map.get(sku));
+			productRepository.save(prod);
+		}
 
 		return sale;
 	}
@@ -123,19 +124,21 @@ public class SaleService {
 
 		map.clear();
 
-		for (Product cartShopping : cartShoppingService.findAll()) {
-			Integer quantityInStock = productService.findBySku(cartShopping.getSku()).getStock().getQuantity();
+		for (Product product : cartShoppingService.findAll()) {
+			Integer quantityInStock = productService.findBySku(product.getSku()).getStock()
+					.getQuantity();
 
-			if (quantityInStock < cartShopping.getStock().getQuantity()) {
+			if (quantityInStock < product.getStock().getQuantity()) {
 				throw new IllegalArgumentException("The quantity in the cart shopping exceeds stock");
 			}
 
 			// Quantidades para serem atualizadas
 
-			Integer stock = productService.findBySku(cartShopping.getSku()).getStock().getQuantity();
-			Integer cart = cartShopping.getStock().getQuantity();
+			Integer stock = productService.findBySku(product.getSku()).getStock().getQuantity();
+			Integer cart = product.getStock().getQuantity();
 
-			map.put(cartShopping.getSku(), (stock - cart));
+			// Armazenado valores para atualização do estoque
+			map.put(product.getSku(), (stock - cart));
 		}
 	}
 }

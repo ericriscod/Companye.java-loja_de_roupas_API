@@ -52,8 +52,9 @@ public class SaleResource {
 		return ResponseEntity.ok(service.findById(id).get());
 	}
 	
+	@Transactional
 	@PostMapping(value = "/debitcard")
-	public ResponseEntity<Sale> sale(@RequestBody DebitCard debitCard){
+	public ResponseEntity<Sale> saleDebitCard(@RequestBody DebitCard debitCard){
 		LocalDate dateNow = LocalDate.now();
 		return ResponseEntity.ok(service.validateSale(debitCard, dateNow));
 	}

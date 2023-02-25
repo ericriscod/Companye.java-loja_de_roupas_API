@@ -1,64 +1,55 @@
 package com.onlinestore.modabit.entities;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tb_cartshopping")
-public class CartShopping implements Serializable{
+@Table(name = "tb_orderItem")
+public class OrderItem implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
-	
-	@OneToMany
-	private Set<Product> products = new HashSet<>();
+	private Long id;
 
-	public CartShopping() {
-	}
-	
-	
+	@OneToOne
+	private Product product;
 
-	public CartShopping(Set<Product> products) {
+	public OrderItem() {
 		super();
-		this.products = products;
+	}
+	
+	public OrderItem(Product product) {
+		super();
+		this.product = product;
 	}
 
-
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-
-	public Set<Product> getProducts() {
-		return products;
+	public Product getProduct() {
+		return product;
 	}
 
-
-	public void setProducts(Set<Product> products) {
-		this.products = products;
+	public void setProduct(Product product) {
+		this.product = product;
 	}
-
-
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		return Objects.hash(id, product);
 	}
 
 	@Override
@@ -69,9 +60,12 @@ public class CartShopping implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		CartShopping other = (CartShopping) obj;
-		return id == other.id;
+		OrderItem other = (OrderItem) obj;
+		return Objects.equals(id, other.id) && Objects.equals(product, other.product);
 	}
+
+	
+
 	
 
 }
