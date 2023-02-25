@@ -1,6 +1,5 @@
 package com.onlinestore.modabit.resources;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +54,6 @@ public class SaleResource {
 	@Transactional
 	@PostMapping(value = "/debitcard")
 	public ResponseEntity<Sale> saleDebitCard(@RequestBody DebitCard debitCard){
-		LocalDate dateNow = LocalDate.now();
-		return ResponseEntity.ok(service.validateSale(debitCard, dateNow));
+		return ResponseEntity.ok(service.validateSale(debitCard));
 	}
 }

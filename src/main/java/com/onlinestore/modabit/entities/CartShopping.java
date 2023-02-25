@@ -11,7 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -22,21 +22,23 @@ public class CartShopping implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	
+
 	private Integer amount;
 	private Double price;
 
-	@OneToMany
+	@ManyToMany
 	private Set<Product> products = new HashSet<>();
 
-
-
 	public CartShopping() {
+		setAmount();
+		setPrice();
 	}
 
 	public CartShopping(Set<Product> products) {
 		super();
 		this.products = products;
+		setAmount();
+		setPrice();
 	}
 
 	@JsonIgnore
@@ -48,17 +50,13 @@ public class CartShopping implements Serializable {
 		this.id = id;
 	}
 
-	public Set<Product> getProducts() {
-		return products;
-	}
-
 	public Integer getAmount() {
 		return amount;
 	}
 
 	public void setAmount() {
 		amount = 0;
-		for(Product prod : products) {
+		for (Product prod : products) {
 			amount += prod.getStock().getQuantity();
 		}
 	}
@@ -69,9 +67,13 @@ public class CartShopping implements Serializable {
 
 	public void setPrice() {
 		price = 0d;
-		for(Product prod : products) {
+		for (Product prod : products) {
 			price += prod.subTotal();
 		}
+	}
+
+	public Set<Product> getProducts() {
+		return products;
 	}
 
 	public void setProducts(Set<Product> products) {

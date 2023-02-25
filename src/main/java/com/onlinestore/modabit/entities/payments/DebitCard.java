@@ -1,20 +1,35 @@
 package com.onlinestore.modabit.entities.payments;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Entity;
 
 @Entity
 public class DebitCard extends PaymentMethod {
 
+	private String holder;
 	private String cardNumber;
-
+	private LocalDate expirationDate;
 	private Integer securityCode;
 	
 	public DebitCard() {
+		super();
 	}
 
-	public DebitCard(String cardNumber, Integer securityCode) {
+	public DebitCard(String holder, String cardNumber, LocalDate expirationDate, Integer securityCode) {
+		super();
+		this.holder = holder;
 		this.cardNumber = cardNumber;
+		this.expirationDate = expirationDate;
 		this.securityCode = securityCode;
+	}
+
+	public String getHolder() {
+		return holder;
+	}
+
+	public void setHolder(String holder) {
+		this.holder = holder;
 	}
 
 	public String getCardNumber() {
@@ -25,6 +40,14 @@ public class DebitCard extends PaymentMethod {
 		this.cardNumber = cardNumber;
 	}
 
+	public LocalDate getExpirationDate() {
+		return expirationDate;
+	}
+
+	public void setExpirationDate(LocalDate expirationDate) {
+		this.expirationDate = expirationDate;
+	}
+
 	public Integer getSecurityCode() {
 		return securityCode;
 	}
@@ -32,5 +55,7 @@ public class DebitCard extends PaymentMethod {
 	public void setSecurityCode(Integer securityCode) {
 		this.securityCode = securityCode;
 	}
+	
+	
 
 }

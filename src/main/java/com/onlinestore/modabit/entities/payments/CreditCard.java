@@ -1,24 +1,33 @@
 package com.onlinestore.modabit.entities.payments;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.Transient;
 
 @Entity
 public class CreditCard extends PaymentMethod {
-
+	
+	private String holder;
 	private String cardNumber;
 	private String expirationDate;
-	
-	@Transient
 	private Integer securityCode;
-	
+
 	public CreditCard() {
+		super();
 	}
 
-	public CreditCard(String cardNumber, String expirationDate, Integer securityCode) {
+	public CreditCard(String holder, String cardNumber, String expirationDate, Integer securityCode) {
+		super();
+		this.holder = holder;
 		this.cardNumber = cardNumber;
 		this.expirationDate = expirationDate;
 		this.securityCode = securityCode;
+	}
+
+	public String getHolder() {
+		return holder;
+	}
+
+	public void setHolder(String holder) {
+		this.holder = holder;
 	}
 
 	public String getCardNumber() {

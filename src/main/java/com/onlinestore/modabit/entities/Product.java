@@ -2,6 +2,7 @@ package com.onlinestore.modabit.entities;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Set;
 
 import com.onlinestore.modabit.entities.enums.CategoryEnum;
 import com.onlinestore.modabit.entities.enums.ColorEnum;
@@ -9,6 +10,7 @@ import com.onlinestore.modabit.entities.enums.DepartmentEnum;
 import com.onlinestore.modabit.entities.enums.SizeEnum;
 import com.onlinestore.modabit.entities.enums.TypeEnum;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -16,6 +18,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -42,6 +45,10 @@ public class Product implements Serializable {
 	
 	@Embedded
 	private Stock stock;
+	
+
+	@ManyToMany(mappedBy = "products", cascade = CascadeType.PERSIST)
+	private Set<CartShopping> cart;
 
 	public Product() {
 	}

@@ -63,56 +63,29 @@ public class SaleService {
 		throw new NoSuchElementException("Product not found");
 	}
 
-	/*public Sale validateSale(DebitCard debitCard, String cpf, LocalDate moment) {
+	@Transactional
+	public Sale validateSale(DebitCard debitCard) {
 
 		if (cartShoppingService.findAll().isEmpty()) {
 			throw new NoSuchElementException("Cart Shopping is Empty");
 		}
 
-		if (cpf.length() != 11 || cpf.contains(".") || cpf.contains("-")) {
+		CartShopping cartShopping = new CartShopping(cartShoppingService.findAll());
 
-			throw new IllegalArgumentException("Invalid CPF");
-		}
 
-		// Validação da quantidade no estoque se há produtos disponíveis
+		// Validação da quantidade no estoque
 		validateStock();
 
-		for (String sku : map.keySet()) {
-			productService.findBySku(sku).getStock().setQuantity(map.get(sku));
-		}
-
-		CartShopping cartShopping = new CartShopping(cartShoppingService.findAll());
-		Sale sale = new Sale(debitCard, cpf, moment, cartShopping);
+		Sale sale = new Sale(debitCard, LocalDate.now(), cartShopping);
 
 		paymentRepository.save(debitCard);
 		cartRepository.save(cartShopping);
 		saleRepository.save(sale);
 
-		return sale;
-	}*/
-	
-	@Transactional
-	public Sale validateSale(DebitCard debitCard, LocalDate moment) {
-
-		if (cartShoppingService.findAll().isEmpty()) {
-			throw new NoSuchElementException("Cart Shopping is Empty");
-		}
-
-		CartShopping cartShopping = cartShoppingService.getCartShopping();
-		
-		// Validação da quantidade no estoque
-		validateStock();
-				
-		Sale sale = new Sale(debitCard, moment, cartShopping);
-
-		paymentRepository.save(debitCard);	
-		cartRepository.save(cartShopping);
-		saleRepository.save(sale);
-		
 		// Atualizando estoque
 		for (String sku : map.keySet()) {
 			Product prod = productService.findBySku(sku);
-			
+
 			prod.getStock().setQuantity(map.get(sku));
 			productRepository.save(prod);
 		}
@@ -124,8 +97,7 @@ public class SaleService {
 		map.clear();
 
 		for (Product productCart : cartShoppingService.findAll()) {
-			Integer quantityInStock = productService.findBySku(productCart.getSku()).getStock()
-					.getQuantity();
+			Integer quantityInStock = productService.findBySku(productCart.getSku()).getStock().getQuantity();
 
 			if (quantityInStock < productCart.getStock().getQuantity()) {
 				throw new IllegalArgumentException("The quantity in the cart shopping exceeds stock");
