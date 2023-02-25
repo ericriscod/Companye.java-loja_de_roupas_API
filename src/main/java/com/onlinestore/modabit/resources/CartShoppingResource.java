@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.onlinestore.modabit.entities.CartShopping;
@@ -29,7 +28,7 @@ public class CartShoppingResource {
 
 		if (cart.getProducts().isEmpty()) {
 			return ResponseEntity.noContent().build();
-			
+
 		}
 		return ResponseEntity.ok(cart);
 	}
@@ -50,8 +49,9 @@ public class CartShoppingResource {
 		return ResponseEntity.status(HttpStatus.CREATED).body(service.save(sku, quantity));
 	}
 
-	@PatchMapping(value = "/quantity")
-	public ResponseEntity<Product> update(@RequestParam String sku, Integer quantity) {
+	@PatchMapping(value = "/{sku}/{quantity}")
+	public ResponseEntity<Product> update(@PathVariable(value = "sku") String sku,
+			@PathVariable(value = "quantity") Integer quantity) {
 		try {
 			Product product = service.update(sku, quantity);
 			return ResponseEntity.ok(product);
