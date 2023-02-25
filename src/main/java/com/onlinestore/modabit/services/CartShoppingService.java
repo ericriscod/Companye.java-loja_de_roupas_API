@@ -80,7 +80,10 @@ public class CartShoppingService {
 		// Inserindo produto no carrinho
 
 		product.getStock().setQuantity(quantity);
-		cart.getProducts().add(product);
+		
+		cart.getProducts().add(product);	
+		cart.setAmount();
+		cart.setPrice();
 
 		return product;
 	}
@@ -106,6 +109,9 @@ public class CartShoppingService {
 		updateProduct.getStock().setQuantity(quantity);
 
 		cart.getProducts().add(updateProduct);
+		cart.setAmount();
+		cart.setPrice();
+		
 		return updateProduct;
 	}
 

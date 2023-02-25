@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.onlinestore.modabit.entities.payments.PaymentMethod;
 
 import jakarta.persistence.Entity;
@@ -85,6 +86,7 @@ public class Sale implements Serializable{
 		this.moment = moment;
 	}
 
+	@JsonIgnore
 	public CartShopping getCartShopping() {
 		return cartShopping;
 	}

@@ -1,7 +1,5 @@
 package com.onlinestore.modabit.resources;
 
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.onlinestore.modabit.entities.CartShopping;
 import com.onlinestore.modabit.entities.Product;
 import com.onlinestore.modabit.services.CartShoppingService;
 
@@ -25,13 +24,14 @@ public class CartShoppingResource {
 	CartShoppingService service;
 
 	@GetMapping
-	public ResponseEntity<Set<Product>> findAll() {
-		Set<Product> products = service.findAll();
+	public ResponseEntity<CartShopping> getCardShopping() {
+		CartShopping cart = service.getCartShopping();
 
-		if (!products.isEmpty()) {
-			return ResponseEntity.ok(products);
+		if (cart.getProducts().isEmpty()) {
+			return ResponseEntity.noContent().build();
+			
 		}
-		return ResponseEntity.noContent().build();
+		return ResponseEntity.ok(cart);
 	}
 
 	@GetMapping(value = "/search-id/{id}")

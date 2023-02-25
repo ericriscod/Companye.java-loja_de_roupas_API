@@ -40,7 +40,6 @@ public class Product implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private DepartmentEnum department;
 	
-
 	@Embedded
 	private Stock stock;
 
@@ -73,6 +72,16 @@ public class Product implements Serializable {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
+	
+	
+
+	public Stock getStock() {
+		return stock;
+	}
+
+	public void setStock(Stock stock) {
+		this.stock = stock;
+	}
 
 	public TypeEnum getType() {
 		return type;
@@ -94,14 +103,6 @@ public class Product implements Serializable {
 		return department;
 	}
 
-	public Stock getStock() {
-		return stock;
-	}
-
-	public void setStock(Stock stock) {
-		this.stock = stock;
-	}
-
 	public void insertEnum() {
 		sku = sku.toUpperCase();
 		category = CategoryEnum.valueEnum(sku.substring(0,4));
@@ -110,6 +111,10 @@ public class Product implements Serializable {
 		type = TypeEnum.valueEnum(sku.substring(11,14));
 		size = SizeEnum.valueEnum(sku.substring(14));
 		}
+	
+	public Double subTotal(){
+		return price * stock.getQuantity();
+	}
 
 	@Override
 	public int hashCode() {
