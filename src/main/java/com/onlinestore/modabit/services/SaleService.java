@@ -1,6 +1,7 @@
 package com.onlinestore.modabit.services;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.onlinestore.modabit.entities.CartShopping;
 import com.onlinestore.modabit.entities.Product;
 import com.onlinestore.modabit.entities.Sale;
+import com.onlinestore.modabit.entities.dto.SaleDTO;
 import com.onlinestore.modabit.entities.payments.PaymentMethod;
 import com.onlinestore.modabit.exceptions.NoProductElementException;
 import com.onlinestore.modabit.exceptions.StockException;
@@ -52,8 +54,16 @@ public class SaleService {
 		return saleRepository.findAll(pageable);
 	}
 
-	public List<Sale> findAll() {
-		return saleRepository.findAll();
+	public List<SaleDTO> findAll() {
+
+		List<Sale> sales = saleRepository.findAll();
+		List<SaleDTO> salesDTO = new ArrayList<>();
+
+		for (Sale sale : sales) {
+			SaleDTO saleDTO = new SaleDTO(sale);
+			salesDTO.add(saleDTO);
+		}
+		return salesDTO;
 	}
 
 	public Optional<Sale> findById(Long id) {

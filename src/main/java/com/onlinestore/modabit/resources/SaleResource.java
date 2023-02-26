@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.onlinestore.modabit.entities.Sale;
+import com.onlinestore.modabit.entities.dto.SaleDTO;
 import com.onlinestore.modabit.entities.payments.Boleto;
 import com.onlinestore.modabit.entities.payments.CreditCard;
 import com.onlinestore.modabit.entities.payments.DebitCard;
@@ -30,8 +31,8 @@ public class SaleResource {
 	
 	@Transactional(readOnly = true)
 	@GetMapping
-	public ResponseEntity<List<Sale>> findAll() {
-		List<Sale> sales = service.findAll();
+	public ResponseEntity<List<SaleDTO>> findAll() {
+		List<SaleDTO> sales = service.findAll();
 		if (!sales.isEmpty()) {
 			return ResponseEntity.ok(sales);
 		}
