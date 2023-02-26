@@ -20,6 +20,7 @@ import com.onlinestore.modabit.entities.Sale;
 import com.onlinestore.modabit.entities.dto.SaleDTO;
 import com.onlinestore.modabit.entities.payments.PaymentMethod;
 import com.onlinestore.modabit.exceptions.NoProductElementException;
+import com.onlinestore.modabit.exceptions.ProductArgumentsException;
 import com.onlinestore.modabit.exceptions.StockException;
 import com.onlinestore.modabit.repositories.CartShoppingRepository;
 import com.onlinestore.modabit.repositories.PaymentRepository;
@@ -50,10 +51,6 @@ public class SaleService {
 	// Armazenar quantidades por sku para validação da venda.
 	private Map<String, Integer> map = new HashMap<>();
 
-	public Page<Sale> findAll(Pageable pageable) {
-		return saleRepository.findAll(pageable);
-	}
-
 	public List<SaleDTO> findAll() {
 
 		List<Sale> sales = saleRepository.findAll();
@@ -66,19 +63,19 @@ public class SaleService {
 		return salesDTO;
 	}
 
-	public Optional<Sale> findById(Long id) {
+	public SaleDTO findById(Long id) {
 
 		if (saleRepository.findById(id).isPresent()) {
-			return saleRepository.findById(id);
+			return new SaleDTO(saleRepository.findById(id));
 		}
-		throw new NoSuchElementException("Product not found");
+		throw new NoProductElementException("Product not found");
 	}
 
 	@Transactional
 	public Sale validateSale(String cpf, PaymentMethod paymentMethod) {
 
 		if (cpf.length() != 11) {
-			throw new IllegalArgumentException("Invalid cpf");
+			throw new ProductArgumentsException("Invalid cpf");
 		}
 
 		if (cartShoppingService.findAll().isEmpty()) {

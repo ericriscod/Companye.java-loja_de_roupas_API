@@ -38,21 +38,11 @@ public class SaleResource {
 		}
 		return ResponseEntity.noContent().build();
 	}
-
-	@Transactional(readOnly = true)
-	@GetMapping(value = "/page")
-	public ResponseEntity<Page<Sale>> findAll(Pageable pageable) {
-		Page<Sale> sales = service.findAll(pageable);
-		if (!sales.isEmpty()) {
-			return ResponseEntity.ok(sales);
-		}
-		return ResponseEntity.noContent().build();
-	}
 	
 	@Transactional(readOnly = true)
 	@GetMapping(value = "/search-id/{id}")
-	public ResponseEntity<Sale> findById(@PathVariable Long id) {
-		return ResponseEntity.ok(service.findById(id).get());
+	public ResponseEntity<SaleDTO> findById(@PathVariable Long id) {
+		return ResponseEntity.ok(service.findById(id));
 	}
 	
 	@Transactional
