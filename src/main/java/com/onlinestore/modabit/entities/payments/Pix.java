@@ -1,5 +1,8 @@
 package com.onlinestore.modabit.entities.payments;
 
+import jakarta.persistence.Entity;
+
+@Entity
 public class Pix extends PaymentMethod{
 	
 	private String keyPix;

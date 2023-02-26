@@ -1,6 +1,5 @@
 package com.onlinestore.modabit.services;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.onlinestore.modabit.entities.CartShopping;
 import com.onlinestore.modabit.entities.Product;
 import com.onlinestore.modabit.entities.Sale;
-import com.onlinestore.modabit.entities.payments.DebitCard;
+import com.onlinestore.modabit.entities.payments.PaymentMethod;
 import com.onlinestore.modabit.repositories.CartShoppingRepository;
 import com.onlinestore.modabit.repositories.PaymentRepository;
 import com.onlinestore.modabit.repositories.ProductRepository;
@@ -60,61 +59,27 @@ public class SaleService {
 		if (saleRepository.findById(id).isPresent()) {
 			return saleRepository.findById(id);
 		}
-
 		throw new NoSuchElementException("Product not found");
 	}
 
 	@Transactional
-	public Sale validateSale(DebitCard debitCard) {
+	public Sale validateSale(String cpf, PaymentMethod paymentMethod) {
 
-		if (cartShoppingService.findAll().isEmpty()) {
-			throw new NoSuchElementException("Cart Shopping is Empty");
-		}
-
-		CartShopping cartShopping = new CartShopping(cartShoppingService.findAll());
-
-
-		// Validação da quantidade no estoque
-		validateStock();
-
-		Sale sale = new Sale(debitCard, LocalDateTime.now(), cartShopping);
-
-		paymentRepository.save(debitCard);
-		cartRepository.save(cartShopping);
-		saleRepository.save(sale);
-
-		// Atualizando estoque
-		for (String sku : map.keySet()) {
-			Product prod = productService.findBySku(sku);
-
-			prod.getStock().setQuantity(map.get(sku));
-			productRepository.save(prod);
-		}
-		
-		
-		return sale;
-	}
-	
-	@Transactional
-	public Sale validateSale(String cpf, DebitCard debitCard) {
-
-		if(cpf.length() != 11) {
+		if (cpf.length() != 11) {
 			throw new IllegalArgumentException("Invalid cpf");
 		}
-		
+
 		if (cartShoppingService.findAll().isEmpty()) {
 			throw new NoSuchElementException("Cart Shopping is Empty");
 		}
 
 		CartShopping cartShopping = new CartShopping(cartShoppingService.findAll());
 
-
 		// Validação da quantidade no estoque
 		validateStock();
+		Sale sale = new Sale(paymentMethod, cpf, LocalDateTime.now(), cartShopping);
 
-		Sale sale = new Sale(debitCard, cpf, LocalDateTime.now(), cartShopping);
-
-		paymentRepository.save(debitCard);
+		paymentRepository.save(paymentMethod);
 		cartRepository.save(cartShopping);
 		saleRepository.save(sale);
 
@@ -125,10 +90,38 @@ public class SaleService {
 			prod.getStock().setQuantity(map.get(sku));
 			productRepository.save(prod);
 		}
-		
-		
 		return sale;
 	}
+
+	@Transactional
+	public Sale validateSale(PaymentMethod paymentMethod) {
+
+		if (cartShoppingService.findAll().isEmpty()) {
+			throw new NoSuchElementException("Cart Shopping is Empty");
+		}
+
+		CartShopping cartShopping = new CartShopping(cartShoppingService.findAll());
+
+		// Validação da quantidade no estoque
+		validateStock();
+
+		Sale sale = new Sale(paymentMethod, LocalDateTime.now(), cartShopping);
+
+		paymentRepository.save(paymentMethod);
+		cartRepository.save(cartShopping);
+		saleRepository.save(sale);
+
+		// Atualizando estoque
+		for (String sku : map.keySet()) {
+			Product prod = productService.findBySku(sku);
+
+			prod.getStock().setQuantity(map.get(sku));
+			productRepository.save(prod);
+		}
+		return sale;
+	}
+
+	// Validação de estoque
 
 	private void validateStock() {
 

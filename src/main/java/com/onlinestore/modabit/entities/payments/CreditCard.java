@@ -1,5 +1,7 @@
 package com.onlinestore.modabit.entities.payments;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Entity;
 
 @Entity
@@ -7,14 +9,14 @@ public class CreditCard extends PaymentMethod {
 	
 	private String holder;
 	private String cardNumber;
-	private String expirationDate;
+	private LocalDate expirationDate;
 	private Integer securityCode;
 
 	public CreditCard() {
 		super();
 	}
 
-	public CreditCard(String holder, String cardNumber, String expirationDate, Integer securityCode) {
+	public CreditCard(String holder, String cardNumber, LocalDate expirationDate, Integer securityCode) {
 		super();
 		this.holder = holder;
 		this.cardNumber = cardNumber;
@@ -38,11 +40,11 @@ public class CreditCard extends PaymentMethod {
 		this.cardNumber = cardNumber;
 	}
 
-	public String getExpirationDate() {
+	public LocalDate getExpirationDate() {
 		return expirationDate;
 	}
 
-	public void setExpirationDate(String expirationDate) {
+	public void setExpirationDate(LocalDate expirationDate) {
 		this.expirationDate = expirationDate;
 	}
 
