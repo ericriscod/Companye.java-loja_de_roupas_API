@@ -3,8 +3,6 @@ package com.onlinestore.modabit.resources;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,43 +45,43 @@ public class SaleResource {
 	
 	@Transactional
 	@PostMapping(value = "/debitcard")
-	public ResponseEntity<Sale> debitCard(@RequestBody DebitCard debitCard){
+	public ResponseEntity<SaleDTO> debitCard(@RequestBody DebitCard debitCard){
 		return ResponseEntity.ok(service.validateSale(debitCard));
 	}
 	
 	@Transactional
 	@PostMapping(value = "/debitcard/{cpf}")
-	public ResponseEntity<Sale> debitCard(@PathVariable String cpf, @RequestBody DebitCard debitCard){
+	public ResponseEntity<SaleDTO> debitCard(@PathVariable String cpf, @RequestBody DebitCard debitCard){
 		return ResponseEntity.ok(service.validateSale(cpf, debitCard));
 	}
 	
 	@Transactional
 	@PostMapping(value = "/creditcard")
-	public ResponseEntity<Sale> creditCard(@RequestBody CreditCard creditcard){
+	public ResponseEntity<SaleDTO> creditCard(@RequestBody CreditCard creditcard){
 		return ResponseEntity.ok(service.validateSale(creditcard));
 	}
 	
 	@Transactional
 	@PostMapping(value = "/creditcard/{cpf}")
-	public ResponseEntity<Sale> creditCard(@PathVariable String cpf, @RequestBody CreditCard creditcard){
+	public ResponseEntity<SaleDTO> creditCard(@PathVariable String cpf, @RequestBody CreditCard creditcard){
 		return ResponseEntity.ok(service.validateSale(cpf, creditcard));
 	}
 	
 	@Transactional
 	@PostMapping(value = "/pix")
-	public ResponseEntity<Sale> creditCard(@RequestBody Pix pix){
+	public ResponseEntity<SaleDTO> creditCard(@RequestBody Pix pix){
 		return ResponseEntity.ok(service.validateSale(pix));
 	}
 	
 	@Transactional
 	@PostMapping(value = "/pix/{cpf}")
-	public ResponseEntity<Sale> creditCard(@PathVariable String cpf, @RequestBody Pix pix){
+	public ResponseEntity<SaleDTO> creditCard(@PathVariable String cpf, @RequestBody Pix pix){
 		return ResponseEntity.ok(service.validateSale(cpf, pix));
 	}
 	
 	@Transactional
 	@PostMapping(value = "/boleto")
-	public ResponseEntity<Sale> creditCard(@RequestBody Boleto boleto){
+	public ResponseEntity<SaleDTO> creditCard(@RequestBody Boleto boleto){
 		return ResponseEntity.ok(service.validateSale(boleto));
 	}
 	

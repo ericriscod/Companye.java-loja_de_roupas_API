@@ -5,12 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -72,7 +68,7 @@ public class SaleService {
 	}
 
 	@Transactional
-	public Sale validateSale(String cpf, PaymentMethod paymentMethod) {
+	public SaleDTO validateSale(String cpf, PaymentMethod paymentMethod) {
 
 		if (cpf.length() != 11) {
 			throw new ProductArgumentsException("Invalid cpf");
@@ -99,11 +95,11 @@ public class SaleService {
 			prod.getStock().setQuantity(map.get(sku));
 			productRepository.save(prod);
 		}
-		return sale;
+		return new SaleDTO(sale);
 	}
 
 	@Transactional
-	public Sale validateSale(PaymentMethod paymentMethod) {
+	public SaleDTO validateSale(PaymentMethod paymentMethod) {
 
 		if (cartShoppingService.findAll().isEmpty()) {
 			throw new NoProductElementException("Cart Shopping is Empty");
@@ -127,7 +123,7 @@ public class SaleService {
 			prod.getStock().setQuantity(map.get(sku));
 			productRepository.save(prod);
 		}
-		return sale;
+		return new SaleDTO(sale);
 	}
 
 	// Validação de estoque

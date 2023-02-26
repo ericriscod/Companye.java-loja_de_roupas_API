@@ -30,8 +30,26 @@ public class SaleDTO {
 		price = sale.getCartShopping().getPrice();
 	}
 	
+	public SaleDTO(Sale sale, PaymentMethodEnum paymentMethodEnum) {
+		id = sale.getId();
+		this.paymentMethod = paymentMethodEnum;
+		cpf = sale.getCpf();
+		date = sale.getMoment();
+		amount = sale.getCartShopping().getAmount();
+		price = sale.getCartShopping().getPrice();
+	}
+	
 	public SaleDTO(Optional<Sale> sale) {
 		id = sale.get().getId();
+		cpf = sale.get().getCpf();
+		date = sale.get().getMoment();
+		amount = sale.get().getCartShopping().getAmount();
+		price = sale.get().getCartShopping().getPrice();
+	}
+	
+	public SaleDTO(Optional<Sale> sale, PaymentMethodEnum paymentMethodEnum) {
+		id = sale.get().getId();
+		this.paymentMethod = paymentMethodEnum;
 		cpf = sale.get().getCpf();
 		date = sale.get().getMoment();
 		amount = sale.get().getCartShopping().getAmount();
