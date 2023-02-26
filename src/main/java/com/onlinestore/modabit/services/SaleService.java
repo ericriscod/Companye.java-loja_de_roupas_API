@@ -14,6 +14,7 @@ import com.onlinestore.modabit.entities.CartShopping;
 import com.onlinestore.modabit.entities.Product;
 import com.onlinestore.modabit.entities.Sale;
 import com.onlinestore.modabit.entities.dto.SaleDTO;
+import com.onlinestore.modabit.entities.enums.PaymentMethodEnum;
 import com.onlinestore.modabit.entities.payments.PaymentMethod;
 import com.onlinestore.modabit.exceptions.NoProductElementException;
 import com.onlinestore.modabit.exceptions.ProductArgumentsException;
@@ -68,7 +69,7 @@ public class SaleService {
 	}
 
 	@Transactional
-	public SaleDTO validateSale(String cpf, PaymentMethod paymentMethod) {
+	public SaleDTO validateSale(String cpf, PaymentMethod paymentMethod, PaymentMethodEnum paymentMethodEnum) {
 
 		if (cpf.length() != 11) {
 			throw new ProductArgumentsException("Invalid cpf");
@@ -95,11 +96,11 @@ public class SaleService {
 			prod.getStock().setQuantity(map.get(sku));
 			productRepository.save(prod);
 		}
-		return new SaleDTO(sale);
+		return new SaleDTO(sale, paymentMethodEnum);
 	}
 
 	@Transactional
-	public SaleDTO validateSale(PaymentMethod paymentMethod) {
+	public SaleDTO validateSale(PaymentMethod paymentMethod, PaymentMethodEnum paymentMethodEnum) {
 
 		if (cartShoppingService.findAll().isEmpty()) {
 			throw new NoProductElementException("Cart Shopping is Empty");
@@ -123,7 +124,7 @@ public class SaleService {
 			prod.getStock().setQuantity(map.get(sku));
 			productRepository.save(prod);
 		}
-		return new SaleDTO(sale);
+		return new SaleDTO(sale, paymentMethodEnum);
 	}
 
 	// Validação de estoque
