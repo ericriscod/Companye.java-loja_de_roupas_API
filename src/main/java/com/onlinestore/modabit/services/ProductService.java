@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.onlinestore.modabit.entities.Product;
 import com.onlinestore.modabit.exceptions.NoProductElementException;
+import com.onlinestore.modabit.exceptions.ProductArgumentsException;
 import com.onlinestore.modabit.repositories.ProductRepository;
 
 @Service
@@ -41,11 +42,11 @@ public class ProductService {
 
 	public Product findBySku(String sku) {
 		if (sku.length() != 17) {
-			throw new IllegalArgumentException("Invalid sku");
+			throw new ProductArgumentsException("Invalid sku");
 		}
 
 		Product product = repository.findBySku(sku.toUpperCase())
-				.orElseThrow(() -> new NoSuchElementException("Product not found"));
+				.orElseThrow(() -> new NoProductElementException("Product not found"));
 		return product;
 	}
 
@@ -54,7 +55,7 @@ public class ProductService {
 	public Product save(Product saveProduct) {
 
 		if (saveProduct.getPrice() < 0 || saveProduct.getStock().getQuantity() <= 0) {
-			throw new IllegalArgumentException("Invalid price or quantity");
+			throw new ProductArgumentsException("Invalid price or quantity");
 		}
 
 		if (repository.findBySku(saveProduct.getSku()).isEmpty()) {
@@ -63,7 +64,7 @@ public class ProductService {
 			return saveProduct;
 		}
 
-		throw new NoSuchElementException("There is already a product with the SKU informed");
+		throw new NoProductElementException("There is already a product with the SKU informed");
 	}
 
 	// Atualizar no put
@@ -71,11 +72,11 @@ public class ProductService {
 	public Product update(Product updateProduct) {
 
 		if (updateProduct.getPrice() < 0 || updateProduct.getStock().getQuantity() <= 0) {
-			throw new IllegalArgumentException("Invalid price or quantity");
+			throw new ProductArgumentsException("Invalid price or quantity");
 		}
 
 		Product product = repository.findBySku(updateProduct.getSku())
-				.orElseThrow(() -> new IllegalArgumentException("There is not the product"));
+				.orElseThrow(() -> new ProductArgumentsException("There is not the product"));
 
 		product.setPrice(updateProduct.getPrice());
 		product.setStock(updateProduct.getStock());
@@ -86,11 +87,11 @@ public class ProductService {
 	@Transactional
 	public Product update(String sku, Double price) {
 		if (sku.length() != 17 || price <= 0) {
-			throw new IllegalArgumentException("Invalid sku or price");
+			throw new ProductArgumentsException("Invalid sku or price");
 		}
 
 		Product product = repository.findBySku(sku.toUpperCase())
-				.orElseThrow(() -> new IllegalArgumentException("There is not the product"));
+				.orElseThrow(() -> new ProductArgumentsException("There is not the product"));
 
 		product.setPrice(price);
 		return repository.save(product);
@@ -100,11 +101,11 @@ public class ProductService {
 	public Product update(String sku, Integer quantity) {
 
 		if (sku.length() != 17 || quantity <= 0) {
-			throw new IllegalArgumentException("Invalid sku or quantity");
+			throw new ProductArgumentsException("Invalid sku or quantity");
 		}
 
 		Product product = repository.findBySku(sku.toUpperCase())
-				.orElseThrow(() -> new IllegalArgumentException("There is not the product"));
+				.orElseThrow(() -> new ProductArgumentsException("There is not the product"));
 
 		product.getStock().setQuantity(quantity);
 		return repository.save(product);
@@ -114,12 +115,12 @@ public class ProductService {
 	@Transactional
 	public void deleteBySku(String sku) {
 		if (sku.length() != 17) {
-			throw new IllegalArgumentException("Invalid sku");
+			throw new ProductArgumentsException("Invalid sku");
 		}
 		if (repository.findBySku(sku).isPresent()) {
 			repository.deleteBySku(sku);
 			return;
 		}
-		throw new NoSuchElementException("Product not exist");
+		throw new NoProductElementException("Product not exist");
 	}
 }
