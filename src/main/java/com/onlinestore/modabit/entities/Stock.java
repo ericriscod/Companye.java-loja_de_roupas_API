@@ -1,26 +1,16 @@
 package com.onlinestore.modabit.entities;
 
 import jakarta.persistence.Embeddable;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Embeddable
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Stock {
 	
 	private Integer quantity;
-
-	public Stock() {
-	}
-
-	public Stock(Integer quantity) {
-		this.quantity = quantity;
-	}
-
-	public Integer getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(Integer quantity) {
-		this.quantity = quantity;
-	}
-	
-	
 }
