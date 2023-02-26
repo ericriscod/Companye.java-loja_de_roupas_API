@@ -1,8 +1,6 @@
 package com.onlinestore.modabit.entities;
 
 import java.io.Serializable;
-import java.util.Objects;
-import java.util.Set;
 
 import com.onlinestore.modabit.entities.enums.CategoryEnum;
 import com.onlinestore.modabit.entities.enums.ColorEnum;
@@ -10,7 +8,6 @@ import com.onlinestore.modabit.entities.enums.DepartmentEnum;
 import com.onlinestore.modabit.entities.enums.SizeEnum;
 import com.onlinestore.modabit.entities.enums.TypeEnum;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -18,16 +15,23 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "tb_product")
+
+@Data
+@NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@EqualsAndHashCode.Include
 	private Long id;
 	private String sku;
 	private Double price;	
@@ -46,13 +50,6 @@ public class Product implements Serializable {
 	@Embedded
 	private Stock stock;
 	
-
-	@ManyToMany(mappedBy = "products", cascade = CascadeType.PERSIST)
-	private Set<CartShopping> cart;
-
-	public Product() {
-	}
-	
 	public Product(String sku, Double price, Stock stock) {
 		this.sku = sku;
 		this.price = price;
@@ -60,54 +57,8 @@ public class Product implements Serializable {
 		insertEnum();
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	public String getSku() {
 		return sku.toUpperCase();
-	}
-	
-	public Double getPrice() {
-		return price;
-	}
-
-	public void setPrice(Double price) {
-		this.price = price;
-	}
-	
-	
-
-	public Stock getStock() {
-		return stock;
-	}
-
-	public void setStock(Stock stock) {
-		this.stock = stock;
-	}
-
-	public TypeEnum getType() {
-		return type;
-	}
-
-	public SizeEnum getSize() {
-		return size;
-	}
-
-	public ColorEnum getColor() {
-		return color;
-	}
-
-	public CategoryEnum getCategory() {
-		return category;
-	}
-
-	public DepartmentEnum getDepartment() {
-		return department;
 	}
 
 	public void insertEnum() {
@@ -122,22 +73,4 @@ public class Product implements Serializable {
 	public Double subTotal(){
 		return price * stock.getQuantity();
 	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Product other = (Product) obj;
-		return Objects.equals(id, other.id);
-	}
-
 }

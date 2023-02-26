@@ -12,7 +12,7 @@ import com.onlinestore.modabit.entities.Stock;
 import com.onlinestore.modabit.repositories.ProductRepository;
 
 @Configuration
-@Profile("test")
+
 public class TestConfig implements CommandLineRunner {
 	
 	@Autowired
