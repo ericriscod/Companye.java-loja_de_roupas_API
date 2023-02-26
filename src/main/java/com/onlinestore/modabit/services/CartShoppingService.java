@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.onlinestore.modabit.entities.CartShopping;
 import com.onlinestore.modabit.entities.Product;
-import com.onlinestore.modabit.exceptions.CartShoppingException;
+import com.onlinestore.modabit.exceptions.ProductArgumentsException;
 import com.onlinestore.modabit.exceptions.NoProductElementException;
 import com.onlinestore.modabit.repositories.ProductRepository;
 
@@ -18,7 +18,7 @@ public class CartShoppingService {
 	private ProductRepository productRepository;
 
 	private static CartShopping cart = new CartShopping();
-	
+
 	public CartShopping getCartShopping() {
 		return cart;
 	}
@@ -39,12 +39,11 @@ public class CartShoppingService {
 			}
 		}
 		throw new NoProductElementException("Product not found");
-
 	}
 
 	public Product findBySku(String sku) {
 		if (sku.length() != 17) {
-			throw new CartShoppingException("Invalid sku");
+			throw new ProductArgumentsException("Invalid sku");
 		}
 
 		if (cart.getProducts().isEmpty()) {
@@ -65,7 +64,7 @@ public class CartShoppingService {
 
 	public Product save(String sku, Integer quantity) {
 		if (sku.length() != 17 || quantity <= 0) {
-			throw new CartShoppingException("Invalid sku or quantity");
+			throw new ProductArgumentsException("Invalid sku or quantity");
 		}
 
 		Product product = productRepository.findBySku(sku.toUpperCase())
@@ -75,14 +74,14 @@ public class CartShoppingService {
 
 		if (cart.getProducts().contains(product)) {
 
-			throw new CartShoppingException("There is already a product with the SKU informed");
+			throw new ProductArgumentsException("There is already a product with the SKU informed");
 		}
 
 		// Inserindo produto no carrinho
 
 		product.getStock().setQuantity(quantity);
-		
-		cart.getProducts().add(product);	
+
+		cart.getProducts().add(product);
 		cart.setAmount();
 		cart.setPrice();
 
@@ -93,7 +92,7 @@ public class CartShoppingService {
 
 	public Product update(String sku, Integer quantity) {
 		if (sku.length() != 17 || quantity <= 0) {
-			throw new CartShoppingException("Invalid sku or quantity");
+			throw new ProductArgumentsException("Invalid sku or quantity");
 		}
 
 		if (cart.getProducts().isEmpty()) {
@@ -104,7 +103,7 @@ public class CartShoppingService {
 		Product updateProduct = findBySku(sku.toUpperCase());
 
 		if (updateProduct == null) {
-			throw new CartShoppingException("There is not this product in the cart");
+			throw new ProductArgumentsException("There is not this product in the cart");
 		}
 
 		updateProduct.getStock().setQuantity(quantity);
@@ -112,7 +111,7 @@ public class CartShoppingService {
 		cart.getProducts().add(updateProduct);
 		cart.setAmount();
 		cart.setPrice();
-		
+
 		return updateProduct;
 	}
 
@@ -120,7 +119,7 @@ public class CartShoppingService {
 
 	public void removeBySku(String sku) {
 		if (sku.length() != 17) {
-			throw new CartShoppingException("Invalid sku or quantity");
+			throw new ProductArgumentsException("Invalid sku or quantity");
 		}
 
 		if (cart.getProducts().isEmpty()) {
@@ -128,16 +127,14 @@ public class CartShoppingService {
 		}
 
 		if (!cart.getProducts().removeIf(prod -> prod.getSku().equalsIgnoreCase(sku))) {
-			throw new CartShoppingException("Product not found");
+			throw new ProductArgumentsException("Product not found");
 		}
-
 	}
 
 	public void removeAll() {
 		if (cart.getProducts().isEmpty()) {
 			throw new NoProductElementException("Cart Shopping is Empty");
 		}
-
 		cart.getProducts().clear();
 	}
 

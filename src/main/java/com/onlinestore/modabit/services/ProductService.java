@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.onlinestore.modabit.entities.Product;
+import com.onlinestore.modabit.exceptions.NoProductElementException;
 import com.onlinestore.modabit.repositories.ProductRepository;
 
 @Service
@@ -35,7 +36,7 @@ public class ProductService {
 			return repository.findById(id);
 		}
 
-		throw new NoSuchElementException("Product not found");
+		throw new NoProductElementException("Product not found");
 	}
 
 	public Product findBySku(String sku) {

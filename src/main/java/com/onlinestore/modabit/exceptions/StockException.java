@@ -1,9 +1,9 @@
 package com.onlinestore.modabit.exceptions;
 
-public class CartShoppingException extends RuntimeException {
+public class StockException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
-	public CartShoppingException(String msg) {
+	public StockException(String msg) {
 		super(msg);
 	}
 

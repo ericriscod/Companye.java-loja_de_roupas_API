@@ -17,6 +17,8 @@ import com.onlinestore.modabit.entities.CartShopping;
 import com.onlinestore.modabit.entities.Product;
 import com.onlinestore.modabit.entities.Sale;
 import com.onlinestore.modabit.entities.payments.PaymentMethod;
+import com.onlinestore.modabit.exceptions.NoProductElementException;
+import com.onlinestore.modabit.exceptions.StockException;
 import com.onlinestore.modabit.repositories.CartShoppingRepository;
 import com.onlinestore.modabit.repositories.PaymentRepository;
 import com.onlinestore.modabit.repositories.ProductRepository;
@@ -70,7 +72,7 @@ public class SaleService {
 		}
 
 		if (cartShoppingService.findAll().isEmpty()) {
-			throw new NoSuchElementException("Cart Shopping is Empty");
+			throw new NoProductElementException("Cart Shopping is Empty");
 		}
 
 		CartShopping cartShopping = new CartShopping(cartShoppingService.findAll());
@@ -97,7 +99,7 @@ public class SaleService {
 	public Sale validateSale(PaymentMethod paymentMethod) {
 
 		if (cartShoppingService.findAll().isEmpty()) {
-			throw new NoSuchElementException("Cart Shopping is Empty");
+			throw new NoProductElementException("Cart Shopping is Empty");
 		}
 
 		CartShopping cartShopping = new CartShopping(cartShoppingService.findAll());
@@ -131,7 +133,7 @@ public class SaleService {
 			Integer quantityInStock = productService.findBySku(productCart.getSku()).getStock().getQuantity();
 
 			if (quantityInStock < productCart.getStock().getQuantity()) {
-				throw new IllegalArgumentException("The quantity in the cart shopping exceeds stock");
+				throw new StockException("The quantity in the cart shopping exceeds stock");
 			}
 
 			// Quantidades para serem atualizadas
