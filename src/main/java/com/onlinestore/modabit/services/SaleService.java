@@ -14,7 +14,6 @@ import com.onlinestore.modabit.entities.CartShopping;
 import com.onlinestore.modabit.entities.Product;
 import com.onlinestore.modabit.entities.Sale;
 import com.onlinestore.modabit.entities.dto.SaleDTO;
-import com.onlinestore.modabit.entities.enums.PaymentMethodEnum;
 import com.onlinestore.modabit.entities.payments.PaymentMethod;
 import com.onlinestore.modabit.exceptions.NoProductElementException;
 import com.onlinestore.modabit.exceptions.ProductArgumentsException;
@@ -63,13 +62,15 @@ public class SaleService {
 	public SaleDTO findById(Long id) {
 
 		if (saleRepository.findById(id).isPresent()) {
-			return new SaleDTO(saleRepository.findById(id));
+			
+			Sale sale = saleRepository.findById(id).get();
+			return new SaleDTO(sale);
 		}
 		throw new NoProductElementException("Product not found");
 	}
 
 	@Transactional
-	public SaleDTO validateSale(String cpf, PaymentMethod paymentMethod, PaymentMethodEnum paymentMethodEnum) {
+	public SaleDTO validateSale(String cpf, PaymentMethod paymentMethod) {
 
 		if (cpf.length() != 11) {
 			throw new ProductArgumentsException("Invalid cpf");
@@ -96,11 +97,11 @@ public class SaleService {
 			prod.getStock().setQuantity(map.get(sku));
 			productRepository.save(prod);
 		}
-		return new SaleDTO(sale, paymentMethodEnum);
+		return new SaleDTO(sale);
 	}
 
 	@Transactional
-	public SaleDTO validateSale(PaymentMethod paymentMethod, PaymentMethodEnum paymentMethodEnum) {
+	public SaleDTO validateSale(PaymentMethod paymentMethod) {
 
 		if (cartShoppingService.findAll().isEmpty()) {
 			throw new NoProductElementException("Cart Shopping is Empty");
@@ -124,7 +125,7 @@ public class SaleService {
 			prod.getStock().setQuantity(map.get(sku));
 			productRepository.save(prod);
 		}
-		return new SaleDTO(sale, paymentMethodEnum);
+		return new SaleDTO(sale);
 	}
 
 	// Validação de estoque

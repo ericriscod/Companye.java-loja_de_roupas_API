@@ -1,10 +1,13 @@
 package com.onlinestore.modabit.entities.dto;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 import com.onlinestore.modabit.entities.Sale;
 import com.onlinestore.modabit.entities.enums.PaymentMethodEnum;
+import com.onlinestore.modabit.entities.payments.Boleto;
+import com.onlinestore.modabit.entities.payments.CreditCard;
+import com.onlinestore.modabit.entities.payments.DebitCard;
+import com.onlinestore.modabit.entities.payments.Pix;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,31 +31,18 @@ public class SaleDTO {
 		date = sale.getMoment();
 		amount = sale.getCartShopping().getAmount();
 		price = sale.getCartShopping().getPrice();
-	}
-	
-	public SaleDTO(Sale sale, PaymentMethodEnum paymentMethodEnum) {
-		id = sale.getId();
-		this.paymentMethod = paymentMethodEnum;
-		cpf = sale.getCpf();
-		date = sale.getMoment();
-		amount = sale.getCartShopping().getAmount();
-		price = sale.getCartShopping().getPrice();
-	}
-	
-	public SaleDTO(Optional<Sale> sale) {
-		id = sale.get().getId();
-		cpf = sale.get().getCpf();
-		date = sale.get().getMoment();
-		amount = sale.get().getCartShopping().getAmount();
-		price = sale.get().getCartShopping().getPrice();
-	}
-	
-	public SaleDTO(Optional<Sale> sale, PaymentMethodEnum paymentMethodEnum) {
-		id = sale.get().getId();
-		this.paymentMethod = paymentMethodEnum;
-		cpf = sale.get().getCpf();
-		date = sale.get().getMoment();
-		amount = sale.get().getCartShopping().getAmount();
-		price = sale.get().getCartShopping().getPrice();
+
+		Class<?> classePayment = sale.getPaymentMethod().getClass();
+
+		if (classePayment == DebitCard.class) {
+			paymentMethod = PaymentMethodEnum.DEBITCART;
+		} else if (classePayment == CreditCard.class) {
+			paymentMethod = PaymentMethodEnum.CREDITCARD;
+		} else if (classePayment == Pix.class) {
+			paymentMethod = PaymentMethodEnum.PIX;
+		} else if (classePayment == Boleto.class) {
+			paymentMethod = PaymentMethodEnum.BOLETO;
+		}
+
 	}
 }
