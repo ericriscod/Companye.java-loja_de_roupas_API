@@ -1,6 +1,5 @@
 package com.onlinestore.modabit.services;
 
-import java.util.NoSuchElementException;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.onlinestore.modabit.entities.CartShopping;
 import com.onlinestore.modabit.entities.Product;
+import com.onlinestore.modabit.exceptions.CartShoppingException;
+import com.onlinestore.modabit.exceptions.NoProductElementException;
 import com.onlinestore.modabit.repositories.ProductRepository;
 
 @Service
@@ -30,24 +31,24 @@ public class CartShoppingService {
 
 	public Product findById(Long id) {
 		if (cart.getProducts().isEmpty()) {
-			throw new NoSuchElementException("Cart Shopping is Empty");
+			throw new NoProductElementException("Cart Shopping is Empty");
 		}
 		for (Product product : cart.getProducts()) {
 			if (product.getId().equals(id)) {
 				return product;
 			}
 		}
-		throw new NoSuchElementException("Product not found");
+		throw new NoProductElementException("Product not found");
 
 	}
 
 	public Product findBySku(String sku) {
 		if (sku.length() != 17) {
-			throw new IllegalArgumentException("Invalid sku");
+			throw new CartShoppingException("Invalid sku");
 		}
 
 		if (cart.getProducts().isEmpty()) {
-			throw new NoSuchElementException("Cart Shopping is Empty");
+			throw new NoProductElementException("Cart Shopping is Empty");
 		}
 
 		for (Product product : cart.getProducts()) {
@@ -57,24 +58,24 @@ public class CartShoppingService {
 				return product;
 			}
 		}
-		throw new NoSuchElementException("Product not found");
+		throw new NoProductElementException("Product not found");
 	}
 
 	// Inserir
 
 	public Product save(String sku, Integer quantity) {
 		if (sku.length() != 17 || quantity <= 0) {
-			throw new IllegalArgumentException("Invalid sku or quantity");
+			throw new CartShoppingException("Invalid sku or quantity");
 		}
 
 		Product product = productRepository.findBySku(sku.toUpperCase())
-				.orElseThrow(() -> new IllegalArgumentException("Product not found"));
+				.orElseThrow(() -> new NoProductElementException("Product not found"));
 
 		// Verificando se já existe
 
 		if (cart.getProducts().contains(product)) {
 
-			throw new RuntimeException("There is already a product with the SKU informed");
+			throw new CartShoppingException("There is already a product with the SKU informed");
 		}
 
 		// Inserindo produto no carrinho
@@ -92,18 +93,18 @@ public class CartShoppingService {
 
 	public Product update(String sku, Integer quantity) {
 		if (sku.length() != 17 || quantity <= 0) {
-			throw new IllegalArgumentException("Invalid sku or quantity");
+			throw new CartShoppingException("Invalid sku or quantity");
 		}
 
 		if (cart.getProducts().isEmpty()) {
-			throw new NoSuchElementException("Cart Shopping is Empty");
+			throw new NoProductElementException("Cart Shopping is Empty");
 		}
 
 		// buscando do carrinho
 		Product updateProduct = findBySku(sku.toUpperCase());
 
 		if (updateProduct == null) {
-			throw new IllegalArgumentException("There is not this product in the cart");
+			throw new CartShoppingException("There is not this product in the cart");
 		}
 
 		updateProduct.getStock().setQuantity(quantity);
@@ -119,22 +120,22 @@ public class CartShoppingService {
 
 	public void removeBySku(String sku) {
 		if (sku.length() != 17) {
-			throw new IllegalArgumentException("Invalid sku or quantity");
+			throw new CartShoppingException("Invalid sku or quantity");
 		}
 
 		if (cart.getProducts().isEmpty()) {
-			throw new NoSuchElementException("Cart Shopping is Empty");
+			throw new NoProductElementException("Cart Shopping is Empty");
 		}
 
 		if (!cart.getProducts().removeIf(prod -> prod.getSku().equalsIgnoreCase(sku))) {
-			throw new NoSuchElementException("Product not found");
+			throw new CartShoppingException("Product not found");
 		}
 
 	}
 
 	public void removeAll() {
 		if (cart.getProducts().isEmpty()) {
-			throw new NoSuchElementException("Cart Shopping is Empty");
+			throw new NoProductElementException("Cart Shopping is Empty");
 		}
 
 		cart.getProducts().clear();
