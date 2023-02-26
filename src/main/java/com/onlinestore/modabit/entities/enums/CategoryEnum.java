@@ -1,5 +1,7 @@
 package com.onlinestore.modabit.entities.enums;
 
+import com.onlinestore.modabit.exceptions.EnumTypeException;
+
 public enum CategoryEnum {
 
 	BLOUSE("BLUS"), SHIRTS("CAMI"), SHORTS("SHOR"), PANTS("CALC");
@@ -20,6 +22,6 @@ public enum CategoryEnum {
 				return type;
 			}
 		}
-		throw new IllegalArgumentException("Invalid TypeEnum code");
+		throw new EnumTypeException("Invalid TypeEnum code");
 	}
 }

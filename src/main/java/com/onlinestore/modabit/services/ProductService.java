@@ -1,7 +1,6 @@
 package com.onlinestore.modabit.services;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +63,7 @@ public class ProductService {
 			return saveProduct;
 		}
 
-		throw new NoProductElementException("There is already a product with the SKU informed");
+		throw new ProductArgumentsException("There is already a product with the SKU informed");
 	}
 
 	// Atualizar no put

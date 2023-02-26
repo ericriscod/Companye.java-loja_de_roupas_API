@@ -30,6 +30,7 @@ public class CartShoppingService {
 	}
 
 	public Product findById(Long id) {
+		
 		if (cart.getProducts().isEmpty()) {
 			throw new NoProductElementException("Cart Shopping is Empty");
 		}

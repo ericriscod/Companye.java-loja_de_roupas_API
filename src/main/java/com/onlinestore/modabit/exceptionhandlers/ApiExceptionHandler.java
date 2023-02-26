@@ -7,8 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.onlinestore.modabit.exceptions.ProductArgumentsException;
+import com.onlinestore.modabit.exceptions.EnumTypeException;
 import com.onlinestore.modabit.exceptions.NoProductElementException;
+import com.onlinestore.modabit.exceptions.ProductArgumentsException;
 import com.onlinestore.modabit.exceptions.StockException;
 
 @ControllerAdvice
@@ -38,6 +39,17 @@ public class ApiExceptionHandler {
 	
 	@ExceptionHandler(StockException.class)
 	public ResponseEntity<ProblemResponse> handlerStocckException(StockException ex){
+		
+		ProblemResponse response = new ProblemResponse();
+		
+		response.setTimestemp(LocalDateTime.now());
+		response.setStatus(HttpStatus.BAD_REQUEST.value());
+		response.setMessenger(ex.getMessage());
+		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(EnumTypeException.class)
+	public ResponseEntity<ProblemResponse> handlerStocckException(EnumTypeException ex){
 		
 		ProblemResponse response = new ProblemResponse();
 		

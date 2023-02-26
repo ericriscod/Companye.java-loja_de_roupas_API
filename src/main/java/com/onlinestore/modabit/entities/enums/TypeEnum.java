@@ -1,5 +1,7 @@
 package com.onlinestore.modabit.entities.enums;
 
+import com.onlinestore.modabit.exceptions.EnumTypeException;
+
 public enum TypeEnum {
 
 	CLASSIC("CLA"), NO_CLASSIC("NOC");
@@ -20,6 +22,6 @@ public enum TypeEnum {
 				return type;
 			}
 		}
-		throw new IllegalArgumentException("Invalid TypeEnum code");
+		throw new EnumTypeException("Invalid TypeEnum code");
 	}
 }
