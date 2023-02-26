@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.onlinestore.modabit.entities.Sale;
+import com.onlinestore.modabit.entities.payments.Boleto;
 import com.onlinestore.modabit.entities.payments.CreditCard;
 import com.onlinestore.modabit.entities.payments.DebitCard;
 import com.onlinestore.modabit.entities.payments.Pix;
@@ -81,5 +82,23 @@ public class SaleResource {
 	@PostMapping(value = "/pix")
 	public ResponseEntity<Sale> creditCard(@RequestBody Pix pix){
 		return ResponseEntity.ok(service.validateSale(pix));
+	}
+	
+	@Transactional
+	@PostMapping(value = "/pix/{cpf}")
+	public ResponseEntity<Sale> creditCard(@PathVariable String cpf, @RequestBody Pix pix){
+		return ResponseEntity.ok(service.validateSale(cpf, pix));
+	}
+	
+	@Transactional
+	@PostMapping(value = "/boleto")
+	public ResponseEntity<Sale> creditCard(@RequestBody Boleto boleto){
+		return ResponseEntity.ok(service.validateSale(boleto));
+	}
+	
+	@Transactional
+	@PostMapping(value = "/boleto/{cpf}")
+	public ResponseEntity<Sale> creditCard(@PathVariable String cpf, @RequestBody Boleto boleto){
+		return ResponseEntity.ok(service.validateSale(cpf, boleto));
 	}
 }

@@ -1,11 +1,9 @@
 package com.onlinestore.modabit.entities;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.onlinestore.modabit.entities.payments.PaymentMethod;
 
 import jakarta.persistence.Entity;
@@ -17,7 +15,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_sale")
-public class Sale implements Serializable{
+public class Sale implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -26,17 +24,17 @@ public class Sale implements Serializable{
 
 	@OneToOne
 	private PaymentMethod paymentMethod;
-	
+
 	private String cpf;
-	
+
 	private LocalDateTime moment;
-	
+
 	@OneToOne
 	private CartShopping cartShopping;
-	
+
 	public Sale() {
 	}
-	
+
 	public Sale(PaymentMethod paymentMethod, String cpf, LocalDateTime moment, CartShopping cartShopping) {
 		super();
 		this.paymentMethod = paymentMethod;
@@ -44,8 +42,6 @@ public class Sale implements Serializable{
 		this.moment = moment;
 		this.cartShopping = cartShopping;
 	}
-
-
 
 	public Sale(PaymentMethod paymentMethod, LocalDateTime moment, CartShopping cartShopping) {
 		super();
@@ -69,7 +65,6 @@ public class Sale implements Serializable{
 	public void setPaymentMethod(PaymentMethod paymentMethod) {
 		this.paymentMethod = paymentMethod;
 	}
-	
 
 	public String getCpf() {
 		return cpf;
@@ -78,7 +73,7 @@ public class Sale implements Serializable{
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-	
+
 	public LocalDateTime getMoment() {
 		return moment;
 	}
@@ -87,7 +82,6 @@ public class Sale implements Serializable{
 		this.moment = moment;
 	}
 
-	@JsonIgnore
 	public CartShopping getCartShopping() {
 		return cartShopping;
 	}
@@ -113,6 +107,4 @@ public class Sale implements Serializable{
 		return Objects.equals(id, other.id);
 	}
 
-	
-	
 }
