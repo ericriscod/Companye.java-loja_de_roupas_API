@@ -1,14 +1,14 @@
-package com.onlinestore.modabit.entities.enums;
+package com.onlinestore.modabit.enums;
 
 import com.onlinestore.modabit.exceptions.EnumTypeException;
 
-public enum DepartmentEnum {
+public enum SizeEnum {
 
-	SOCIAL("SOC"), CASUAL("CAS"), BATH("BAT"), SPORT("SPO");
+	P("PEQ"), M("MED"), G("GRA"), GG("GIG");
 
 	private String code;
 
-	private DepartmentEnum(String code) {
+	private SizeEnum(String code) {
 		this.code = code;
 	}
 
@@ -16,8 +16,8 @@ public enum DepartmentEnum {
 		return code;
 	}
 
-	public static DepartmentEnum valueEnum(String typeCode) {
-		for (DepartmentEnum type : DepartmentEnum.values()) {
+	public static SizeEnum valueEnum(String typeCode) {
+		for (SizeEnum type : SizeEnum.values()) {
 			if (type.getCode().equalsIgnoreCase(typeCode)) {
 				return type;
 			}

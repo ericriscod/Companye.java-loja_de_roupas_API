@@ -1,14 +1,14 @@
-package com.onlinestore.modabit.entities.enums;
+package com.onlinestore.modabit.enums;
 
 import com.onlinestore.modabit.exceptions.EnumTypeException;
 
-public enum TypeEnum {
+public enum CategoryEnum {
 
-	CLASSIC("CLA"), NO_CLASSIC("NOC");
+	BLOUSE("BLUS"), SHIRTS("CAMI"), SHORTS("SHOR"), PANTS("CALC");
 
 	private String code;
 
-	private TypeEnum(String code) {
+	private CategoryEnum(String code) {
 		this.code = code;
 	}
 
@@ -16,8 +16,8 @@ public enum TypeEnum {
 		return code;
 	}
 
-	public static TypeEnum valueEnum(String typeCode) {
-		for (TypeEnum type : TypeEnum.values()) {
+	public static CategoryEnum valueEnum(String typeCode) {
+		for (CategoryEnum type : CategoryEnum.values()) {
 			if (type.getCode().equalsIgnoreCase(typeCode)) {
 				return type;
 			}

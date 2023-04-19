@@ -1,4 +1,4 @@
-package com.onlinestore.modabit.resources;
+package com.onlinestore.modabit.controller;
 
 import java.util.List;
 
@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.onlinestore.modabit.entities.dto.SaleDTO;
-import com.onlinestore.modabit.entities.payments.Boleto;
-import com.onlinestore.modabit.entities.payments.CreditCard;
-import com.onlinestore.modabit.entities.payments.DebitCard;
-import com.onlinestore.modabit.entities.payments.Pix;
-import com.onlinestore.modabit.services.SaleService;
+import com.onlinestore.modabit.dto.response.SaleDTO;
+import com.onlinestore.modabit.entities.Boleto;
+import com.onlinestore.modabit.entities.CreditCard;
+import com.onlinestore.modabit.entities.DebitCard;
+import com.onlinestore.modabit.entities.Pix;
+import com.onlinestore.modabit.service.SaleService;
 
 @RestController
 @RequestMapping(value = "/sales")
-public class SaleResource {
+public class SaleController {
 
 	@Autowired
 	private SaleService service;

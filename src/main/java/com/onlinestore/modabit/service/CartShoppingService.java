@@ -1,4 +1,4 @@
-package com.onlinestore.modabit.services;
+package com.onlinestore.modabit.service;
 
 import java.util.Set;
 

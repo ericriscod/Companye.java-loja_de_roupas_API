@@ -1,4 +1,4 @@
-package com.onlinestore.modabit.exceptionhandlers;
+package com.onlinestore.modabit.exceptions.handlers;
 
 import java.time.LocalDateTime;
 

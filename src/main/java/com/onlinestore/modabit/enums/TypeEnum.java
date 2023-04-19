@@ -1,14 +1,14 @@
-package com.onlinestore.modabit.entities.enums;
+package com.onlinestore.modabit.enums;
 
 import com.onlinestore.modabit.exceptions.EnumTypeException;
 
-public enum SizeEnum {
+public enum TypeEnum {
 
-	P("PEQ"), M("MED"), G("GRA"), GG("GIG");
+	CLASSIC("CLA"), NO_CLASSIC("NOC");
 
 	private String code;
 
-	private SizeEnum(String code) {
+	private TypeEnum(String code) {
 		this.code = code;
 	}
 
@@ -16,8 +16,8 @@ public enum SizeEnum {
 		return code;
 	}
 
-	public static SizeEnum valueEnum(String typeCode) {
-		for (SizeEnum type : SizeEnum.values()) {
+	public static TypeEnum valueEnum(String typeCode) {
+		for (TypeEnum type : TypeEnum.values()) {
 			if (type.getCode().equalsIgnoreCase(typeCode)) {
 				return type;
 			}

@@ -1,4 +1,4 @@
-package com.onlinestore.modabit.entities.enums;
+package com.onlinestore.modabit.enums;
 
 import com.onlinestore.modabit.exceptions.EnumTypeException;
 

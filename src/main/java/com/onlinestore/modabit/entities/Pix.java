@@ -1,4 +1,4 @@
-package com.onlinestore.modabit.entities.payments;
+package com.onlinestore.modabit.entities;
 
 import jakarta.persistence.Entity;
 

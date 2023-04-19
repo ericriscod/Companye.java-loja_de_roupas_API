@@ -2,11 +2,11 @@ package com.onlinestore.modabit.entities;
 
 import java.io.Serializable;
 
-import com.onlinestore.modabit.entities.enums.CategoryEnum;
-import com.onlinestore.modabit.entities.enums.ColorEnum;
-import com.onlinestore.modabit.entities.enums.DepartmentEnum;
-import com.onlinestore.modabit.entities.enums.SizeEnum;
-import com.onlinestore.modabit.entities.enums.TypeEnum;
+import com.onlinestore.modabit.enums.CategoryEnum;
+import com.onlinestore.modabit.enums.ColorEnum;
+import com.onlinestore.modabit.enums.DepartmentEnum;
+import com.onlinestore.modabit.enums.SizeEnum;
+import com.onlinestore.modabit.enums.TypeEnum;
 
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;

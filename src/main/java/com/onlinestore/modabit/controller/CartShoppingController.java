@@ -1,4 +1,4 @@
-package com.onlinestore.modabit.resources;
+package com.onlinestore.modabit.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.onlinestore.modabit.entities.CartShopping;
 import com.onlinestore.modabit.entities.Product;
-import com.onlinestore.modabit.services.CartShoppingService;
+import com.onlinestore.modabit.service.CartShoppingService;
 
 @RestController
 @RequestMapping(value = "/cartshopping")
-public class CartShoppingResource {
+public class CartShoppingController {
 
 	@Autowired
 	CartShoppingService service;

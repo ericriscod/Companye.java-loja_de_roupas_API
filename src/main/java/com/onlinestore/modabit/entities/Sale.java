@@ -3,8 +3,6 @@ package com.onlinestore.modabit.entities;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import com.onlinestore.modabit.entities.payments.PaymentMethod;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

@@ -1,4 +1,4 @@
-package com.onlinestore.modabit.resources;
+package com.onlinestore.modabit.controller;
 
 import java.util.List;
 
@@ -19,11 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.onlinestore.modabit.entities.Product;
-import com.onlinestore.modabit.services.ProductService;
+import com.onlinestore.modabit.service.ProductService;
 
 @RestController
 @RequestMapping(value = "/products")
-public class ProductResource {
+public class ProductController {
 
 	@Autowired
 	private ProductService service;

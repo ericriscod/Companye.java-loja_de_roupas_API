@@ -1,13 +1,13 @@
-package com.onlinestore.modabit.entities.dto;
+package com.onlinestore.modabit.dto.response;
 
 import java.time.LocalDateTime;
 
+import com.onlinestore.modabit.entities.Boleto;
+import com.onlinestore.modabit.entities.CreditCard;
+import com.onlinestore.modabit.entities.DebitCard;
+import com.onlinestore.modabit.entities.Pix;
 import com.onlinestore.modabit.entities.Sale;
-import com.onlinestore.modabit.entities.enums.PaymentMethodEnum;
-import com.onlinestore.modabit.entities.payments.Boleto;
-import com.onlinestore.modabit.entities.payments.CreditCard;
-import com.onlinestore.modabit.entities.payments.DebitCard;
-import com.onlinestore.modabit.entities.payments.Pix;
+import com.onlinestore.modabit.enums.PaymentMethodEnum;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,4 +1,4 @@
-package com.onlinestore.modabit.services;
+package com.onlinestore.modabit.service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -10,11 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.onlinestore.modabit.dto.response.SaleDTO;
 import com.onlinestore.modabit.entities.CartShopping;
+import com.onlinestore.modabit.entities.PaymentMethod;
 import com.onlinestore.modabit.entities.Product;
 import com.onlinestore.modabit.entities.Sale;
-import com.onlinestore.modabit.entities.dto.SaleDTO;
-import com.onlinestore.modabit.entities.payments.PaymentMethod;
 import com.onlinestore.modabit.exceptions.NoProductElementException;
 import com.onlinestore.modabit.exceptions.ProductArgumentsException;
 import com.onlinestore.modabit.exceptions.StockException;
