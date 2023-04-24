@@ -1,8 +1,12 @@
 package com.onlinestore.modabit.entities;
 
 import jakarta.persistence.Entity;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 public class Pix extends PaymentMethod{
 	
 	private String keyPix;
@@ -13,15 +17,5 @@ public class Pix extends PaymentMethod{
 	public Pix(String keyPix) {
 		this.keyPix = keyPix;
 	}
-
-	public String getKeyPix() {
-		return keyPix;
-	}
-
-	public void setKeyPix(String keyPix) {
-		this.keyPix = keyPix;
-	}
-	
-	
 
 }
